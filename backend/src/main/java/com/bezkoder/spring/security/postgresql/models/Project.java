@@ -9,6 +9,9 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @OneToMany(mappedBy = "project")
+    private Set<ProjectEvaluation> projectEvaluations = new HashSet<>();
+
     // Otros atributos
 
 /*     @ManyToMany(mappedBy = "projects")

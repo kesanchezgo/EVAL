@@ -1,7 +1,15 @@
 package com.bezkoder.spring.security.postgresql.models;
-import java.util.*;
 import jakarta.persistence.*;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor // Constructor sin argumentos
+@AllArgsConstructor // Constructor con todos los argumentos
 @Entity
 @Table(name = "user_project_assignments")
 public class UserProjectAssignment {

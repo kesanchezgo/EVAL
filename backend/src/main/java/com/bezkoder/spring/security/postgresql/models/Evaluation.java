@@ -4,7 +4,15 @@ import java.util.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
-@Entity
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor // Constructor sin argumentos
+@AllArgsConstructor // Constructor con todos los argumentos
 @Table(name = "evaluations")
 public class Evaluation {
     @Id
@@ -16,6 +24,9 @@ public class Evaluation {
 
     @Column(columnDefinition = "TEXT")
     private String description;
+
+    // Added numerical evaluation scale variable
+    private Integer evaluationScale;
 
     // Otros atributos
 
