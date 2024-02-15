@@ -3,7 +3,8 @@ import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@a
 import { catchError, Observable, throwError } from 'rxjs';
 import { InventoryService } from 'app/modules/admin/apps/ecommerce/inventory/inventory.service';
 import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryProduct, InventoryTag, InventoryVendor } from 'app/modules/admin/apps/ecommerce/inventory/inventory.types';
-import { ProjectResponse } from './project.types';;
+import { ProjectResponse } from './project.types';import { CriteriaResponse } from './criteria.types';
+;
 
 @Injectable({
     providedIn: 'root'
@@ -184,6 +185,36 @@ export class InventoryProjectsResolver implements Resolve<any>
     {
         // Aquí llamas al método getProjects de tu servicio
         return this._inventoryService.getProjects();
+    }
+}
+
+
+@Injectable({
+    providedIn: 'root'
+})
+export class InventoryCriteriasResolver implements Resolve<any>
+{
+    /**
+     * Constructor
+     */
+    constructor(private _inventoryService: InventoryService)
+    {
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Resolver
+     *
+     * @param route
+     * @param state
+     */
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<CriteriaResponse>
+    {
+        // Aquí llamas al método getProjects de tu servicio
+        return this._inventoryService.getCriterias();
     }
 }
 

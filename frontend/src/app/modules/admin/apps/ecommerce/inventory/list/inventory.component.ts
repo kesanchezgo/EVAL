@@ -9,6 +9,7 @@ import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryProduct, InventoryTag, InventoryVendor } from 'app/modules/admin/apps/ecommerce/inventory/inventory.types';
 import { ProjectResponse, Project, Pageable, Proyecto } from '../project.types';
 import { InventoryService } from 'app/modules/admin/apps/ecommerce/inventory/inventory.service';
+import { Criterion } from '../criteria.types';
 
 @Component({
     selector       : 'inventory-list',
@@ -46,6 +47,8 @@ export class InventoryListComponent implements OnInit, AfterViewInit, OnDestroy
 
     projects$: Observable<Project[]>;
    
+    criterias$: Observable<Criterion[]>;
+
     pageable: Pageable;
     
     brands: InventoryBrand[];
@@ -192,6 +195,11 @@ export class InventoryListComponent implements OnInit, AfterViewInit, OnDestroy
         // Get the projects
         this.projects$ = this._inventoryService.projects$;
         console.log("projects:", this.projects$)
+
+
+        // Get the criteria
+        this.criterias$ = this._inventoryService.criterias$;
+        console.log("criterias:", this.criterias$)
         // Suscríbete al observable para obtener los datos reales
         /* this.projects$.subscribe(
             projects => {

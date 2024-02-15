@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 import com.bezkoder.spring.security.postgresql.models.Criterion;
 import com.bezkoder.spring.security.postgresql.models.Evaluation;
 import com.bezkoder.spring.security.postgresql.models.Subcriterion;
@@ -18,6 +18,8 @@ import com.bezkoder.spring.security.postgresql.payload.response.CriterionRespons
 import com.bezkoder.spring.security.postgresql.payload.response.SubcriterionResponse;
 import com.bezkoder.spring.security.postgresql.repository.EvaluationRepository;
 
+
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/evaluations")
 public class EvaluationController {
@@ -25,6 +27,7 @@ public class EvaluationController {
     @Autowired
     private EvaluationRepository evaluationRepository;
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/{evaluationId}/criteria")
     public ResponseEntity<?> getCriteriaByEvaluationId(@PathVariable Long evaluationId) {
         Evaluation evaluation = evaluationRepository.findById(evaluationId).orElse(null);

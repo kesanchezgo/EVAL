@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, filter, map, Observable, of, switchMap, take, tap, throwError,catchError } from 'rxjs';
 import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryProduct, InventoryTag, InventoryVendor } from 'app/modules/admin/apps/ecommerce/inventory/inventory.types';
 import {Project, ProjectResponse, Pageable, Proyecto  } from './project.types';
+import { Criterion, CriteriaResponse } from './criteria.types';
 
 @Injectable({
     providedIn: 'root'
@@ -26,6 +27,8 @@ export class InventoryService
 
     private _proyecto: BehaviorSubject<Proyecto | null> = new BehaviorSubject(null);
     private _proyectos: BehaviorSubject<Proyecto[]> = new BehaviorSubject<Proyecto[]>(null);
+
+    private _criterias: BehaviorSubject<Criterion[]> = new BehaviorSubject<Criterion[]>(null);
 
     private _tags: BehaviorSubject<InventoryTag[] | null> = new BehaviorSubject(null);
     private _vendors: BehaviorSubject<InventoryVendor[] | null> = new BehaviorSubject(null);
@@ -99,6 +102,11 @@ export class InventoryService
     get projects$(): Observable<Project[]>
     {
         return this._projects.asObservable();
+    }
+
+    get criterias$(): Observable<Criterion[]>
+    {
+        return this._criterias.asObservable();
     }
 
     /**
@@ -201,6 +209,31 @@ export class InventoryService
           })
         );
       }
+
+
+      getCriterias(
+        page: number = 0,
+        size: number = 10,
+        sort: string = 'name',
+        order: 'asc' | 'desc' | '' = 'asc',
+        search: string = ''
+      ): Observable<CriteriaResponse> {
+        return this._httpClient.get<CriteriaResponse>('localhost:8088/api/evaluations/1/criteria', {
+          /* params: {
+            page: '' + page,
+            size: '' + size,
+            sort,
+            order,
+            search
+          } */
+        }).pipe(
+          tap((response: CriteriaResponse) => {
+            this._criterias.next(response.criteria);
+            console.log("Crit: ",response.criteria);
+          })
+        );
+      }
+
       
     /**
      * Get product by id
