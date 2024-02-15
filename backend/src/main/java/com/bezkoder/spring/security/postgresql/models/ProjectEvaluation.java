@@ -1,4 +1,6 @@
 package com.bezkoder.spring.security.postgresql.models;
+import java.util.HashSet;
+import java.util.*;
 import jakarta.persistence.*;
 
 import lombok.AllArgsConstructor;
@@ -27,13 +29,9 @@ public class ProjectEvaluation {
 
     private Double score; // Puntaje de la evaluación para este proyecto
 
-/*     @OneToMany(mappedBy = "projectEvaluation")
-    private Set<SubcriterionScore> subcriterionScore = new HashSet<>(); */
 
-    /* @OneToMany(mappedBy = "projectEvaluation")
-    private Set<SubcriterionScore> subcriterionScores = new HashSet<>(); */
+    @OneToMany(mappedBy = "projectEvaluation")
+    private Set<SubcriterionScore> subcriterionScores = new HashSet<>();
 
-  /*   @OneToMany(mappedBy = "projectEvaluation", cascade = CascadeType.ALL)
-    private Set<SubcriterionScore> subcriterionScores; // Puntajes de subcriterios para esta evaluación de proyecto */
-    // Getters y Setters
+
 }

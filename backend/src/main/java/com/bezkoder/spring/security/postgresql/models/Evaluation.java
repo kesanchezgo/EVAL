@@ -13,6 +13,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor // Constructor sin argumentos
 @AllArgsConstructor // Constructor con todos los argumentos
+@Entity
 @Table(name = "evaluations")
 public class Evaluation {
     @Id

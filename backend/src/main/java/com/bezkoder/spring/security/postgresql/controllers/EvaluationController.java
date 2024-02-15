@@ -1,8 +1,8 @@
-/* package com.bezkoder.spring.security.postgresql.controllers;
+package com.bezkoder.spring.security.postgresql.controllers;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +33,8 @@ public class EvaluationController {
             return ResponseEntity.notFound().build();
         }
 
-        List<Criterion> criteria = evaluation.getCriterions();
+        /* List<Criterion> criteria = evaluation.getCriterions(); */
+        List<Criterion> criteria = new ArrayList<>(evaluation.getCriterions());
         List<CriterionResponse> response = criteria.stream()
                 .map(criterion -> new CriterionResponse(criterion.getId(), criterion.getName(),
                         criterion.getDescription(), criterion.getWeight(), getSubcriteriaForCriterion(criterion)))
@@ -49,4 +50,3 @@ public class EvaluationController {
                 .collect(Collectors.toList());
     }
 }
- */
