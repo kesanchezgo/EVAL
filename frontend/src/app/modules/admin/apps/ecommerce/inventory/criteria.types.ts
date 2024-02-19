@@ -13,6 +13,8 @@ export interface Subcriterion {
     subcriteria: Subcriterion[];
   }
   
-  export interface CriteriaResponse {
+  /* export interface CriteriaResponse {
     criteria: Criterion[];
-  }
+  } */
+
+  export type CriteriaResponse = Criterion[];

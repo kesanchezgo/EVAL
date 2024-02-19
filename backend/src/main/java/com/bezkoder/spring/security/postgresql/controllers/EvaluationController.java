@@ -19,7 +19,7 @@ import com.bezkoder.spring.security.postgresql.payload.response.SubcriterionResp
 import com.bezkoder.spring.security.postgresql.repository.EvaluationRepository;
 
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
 @RequestMapping("/api/evaluations")
 public class EvaluationController {
@@ -27,7 +27,7 @@ public class EvaluationController {
     @Autowired
     private EvaluationRepository evaluationRepository;
 
-    @CrossOrigin(origins = "http://localhost:4200")
+/*     @CrossOrigin(origins = "http://localhost:4200") */
     @GetMapping("/{evaluationId}/criteria")
     public ResponseEntity<?> getCriteriaByEvaluationId(@PathVariable Long evaluationId) {
         Evaluation evaluation = evaluationRepository.findById(evaluationId).orElse(null);

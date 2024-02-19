@@ -218,7 +218,7 @@ export class InventoryService
         order: 'asc' | 'desc' | '' = 'asc',
         search: string = ''
       ): Observable<CriteriaResponse> {
-        return this._httpClient.get<CriteriaResponse>('localhost:8088/api/evaluations/1/criteria', {
+        return this._httpClient.get<CriteriaResponse>('http://localhost:8088/api/evaluations/1/criteria', {
           /* params: {
             page: '' + page,
             size: '' + size,
@@ -228,8 +228,8 @@ export class InventoryService
           } */
         }).pipe(
           tap((response: CriteriaResponse) => {
-            this._criterias.next(response.criteria);
-            console.log("Crit: ",response.criteria);
+            this._criterias.next(response);
+            console.log("Crit: ",response);
           })
         );
       }

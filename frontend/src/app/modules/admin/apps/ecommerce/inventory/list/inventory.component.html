@@ -337,18 +337,18 @@
                     </form>
                   </div>
                   <!-- Sección de evaluación -->
-                    <div class="flex border-t">
-                        <form class="flex flex-col w-full" [formGroup]="evaluationForm">
-                            <div class="flex flex-col sm:flex-row p-8">
-                                <!-- Campos de evaluación -->
-                                <div class="flex flex-auto flex-wrap">
-                                    <!-- Criterios de evaluación -->
-                                    <div class="flex flex-col w-full">
-                                        <h3 class="text-lg font-semibold mb-4">Criterios de evaluación</h3>
-
-                                        <!-- Necesidad -->
-                                        <div class="flex flex-col w-full">
-                                            <h4 class="text-md font-semibold mb-2">Necesidad</h4>
+                <div class="flex border-t">
+                    <form class="flex flex-col w-full" [formGroup]="evaluationForm">
+                        <div class="flex flex-col sm:flex-row p-8">
+                            <!-- Campos de evaluación -->
+                            <div class="flex flex-auto flex-wrap">
+                                <!-- Criterios de evaluación -->
+                                <div class="flex flex-col w-full">
+                                    <h3 class="text-lg font-semibold mb-4">Criterios de evaluación</h3>
+                                    <ng-container *ngIf="(criterias$ | async) as criterias">
+                                        <!-- Utilizamos ng-container para aplicar la directiva *ngIf y *ngFor sin agregar elementos innecesarios al DOM -->
+                                        <div *ngFor="let criteria of criterias">
+                                            <h4 class="text-md font-semibold mb-2">{{ criteria.name }}</h4>
                                             <table class="w-full border-collapse border border-gray-200">
                                                 <thead class="bg-gray-100">
                                                     <tr>
@@ -357,82 +357,23 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td class="py-2 px-4 border border-gray-200">Demanda real que el proyecto satisface, justificando su desarrollo al resolver problemas u ofrecer oportunidades.</td>
+                                                    <tr *ngFor="let subcriteria of criteria.subcriteria">
+                                                        <td class="py-2 px-4 border border-gray-200">{{ subcriteria.description }}</td>
                                                         <td class="py-2 px-4 border border-gray-200">
                                                             <input type="number" class="w-16 border border-gray-300 rounded px-2 py-1" min="1" max="4">
                                                         </td>
                                                     </tr>
-                                                    <tr>
-                                                        <td class="py-2 px-4 border border-gray-200">Demanda real que el proyecto satisface, justificando su desarrollo al resolver problemas u ofrecer oportunidades.</td>
-                                                        <td class="py-2 px-4 border border-gray-200">
-                                                            <input type="number" class="w-16 border border-gray-300 rounded px-2 py-1" min="1" max="4">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="py-2 px-4 border border-gray-200">Demanda real que el proyecto satisface, justificando su desarrollo al resolver problemas u ofrecer oportunidades.</td>
-                                                        <td class="py-2 px-4 border border-gray-200">
-                                                            <input type="number" class="w-16 border border-gray-300 rounded px-2 py-1" min="1" max="4">
-                                                        </td>
-                                                    </tr>
-                                                    <!-- Agregar más subcriterios aquí -->
                                                 </tbody>
                                             </table>
                                         </div>
-
-                                        <!-- Necesidad -->
-                                        <div class="flex flex-col w-full">
-                                            <h4 class="text-md font-semibold mb-2">Necesidad</h4>
-                                            <table class="w-full border-collapse border border-gray-200">
-                                                <thead class="bg-gray-100">
-                                                    <tr>
-                                                        <th class="py-2 px-4 border border-gray-200">Descripción</th>
-                                                        <th class="py-2 px-4 border border-gray-200">Puntuación</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td class="py-2 px-4 border border-gray-200">Demanda real que el proyecto satisface, justificando su desarrollo al resolver problemas u ofrecer oportunidades.</td>
-                                                        <td class="py-2 px-4 border border-gray-200">
-                                                            <input type="number" class="w-16 border border-gray-300 rounded px-2 py-1" min="1" max="4">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="py-2 px-4 border border-gray-200">Demanda real que el proyecto satisface, justificando su desarrollo al resolver problemas u ofrecer oportunidades.</td>
-                                                        <td class="py-2 px-4 border border-gray-200">
-                                                            <input type="number" class="w-16 border border-gray-300 rounded px-2 py-1" min="1" max="4">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="py-2 px-4 border border-gray-200">Demanda real que el proyecto satisface, justificando su desarrollo al resolver problemas u ofrecer oportunidades.</td>
-                                                        <td class="py-2 px-4 border border-gray-200">
-                                                            <input type="number" class="w-16 border border-gray-300 rounded px-2 py-1" min="1" max="4">
-                                                        </td>
-                                                    </tr>
-                                                    <!-- Agregar más subcriterios aquí -->
-                                                </tbody>
-                                            </table>
-                                        </div>
-
-                                        <!-- Otros criterios de evaluación -->
-                                        <!-- Agregar más criterios aquí si es necesario -->
-                                    </div>
+                                    </ng-container>
                                 </div>
-
                             </div>
+                        </div>
 
-                            <!-- <div class="flex items-center justify-between w-full border-t px-8 py-4">
-                                
-                                <button mat-flat-button [color]="'primary'" (click)="submitEvaluation()">Submit Evaluation</button>
-                            </div> -->
-
-
-                            <div class="flex items-center justify-between w-full border-t px-8 py-4">
-                                <!-- Buttons for actions like delete and update -->
-                               <!--  <button mat-button [color]="'warn'" (click)="deleteSelectedproject()">Delete</button> -->
-                                <div class="flex items-center">
-                                    <!-- Flash messages -->
-                                    <div class="flex items-center mr-4" *ngIf="flashMessage">
+                        <div class="flex items-center justify-between w-full border-t px-8 py-4">
+                            <div class="flex items-center">
+                                <div class="flex items-center mr-4" *ngIf="flashMessage">
                                     <ng-container *ngIf="flashMessage === 'success'">
                                         <mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:check'"></mat-icon>
                                         <span class="ml-2">Project updated</span>
@@ -441,12 +382,13 @@
                                         <mat-icon class="text-red-500" [svgIcon]="'heroicons_outline:x'"></mat-icon>
                                         <span class="ml-2">An error occurred, try again!</span>
                                     </ng-container>
-                                    </div>
-                                    <button mat-flat-button [color]="'primary'" (click)="submitEvaluation()">Enviar Evaluación</button>
                                 </div>
-                                </div>
-                        </form>
-                    </div>
+                                <button mat-flat-button [color]="'primary'" (click)="submitEvaluation()">Enviar Evaluación</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
 
                 </div>
               </ng-template>
