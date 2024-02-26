@@ -61,7 +61,7 @@ public class ProjectLoaderService {
                     projectRepository.save(existingProject);
                 } else {
                     Project newProject = new Project();
-                    newProject.setExternalId("SISMO" + externalProject.getId_proyecto());
+                    newProject.setExternalId("SISMO-" + externalProject.getId_proyecto());
                     newProject.setName(externalProject.getNomb_proy());
                     newProject.setStatus(externalProject.getEst_proy());
                     newProject.setArea1(externalProject.getArea_investigacion());

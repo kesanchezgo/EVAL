@@ -31,14 +31,14 @@ public class Evaluation {
 
     // Otros atributos
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    /* @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_evaluations", joinColumns = @JoinColumn(name = "evaluation_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private Set<User> evaluators = new HashSet<>();
+    private Set<User> evaluators = new HashSet<>(); */
 
 
-    @ManyToMany(fetch = FetchType.LAZY)
+   /*  @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "project_evaluations", joinColumns = @JoinColumn(name = "evaluation_id"), inverseJoinColumns = @JoinColumn(name = "project_id"))
-    private Set<Project> projects = new HashSet<>();
+    private Set<Project> projects = new HashSet<>(); */
 
 
     @ManyToMany(fetch = FetchType.LAZY)

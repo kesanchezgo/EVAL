@@ -1,5 +1,8 @@
 package com.bezkoder.spring.security.postgresql.models;
 import java.util.HashSet;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.*;
 import jakarta.persistence.*;
 
@@ -14,12 +17,13 @@ import lombok.Setter;
 @AllArgsConstructor // Constructor con todos los argumentos
 @Entity
 @Table(name = "project_evaluations")
+@JsonIgnoreProperties({"evaluation"})
 public class ProjectEvaluation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "project_id")
     private Project project;
 
@@ -30,8 +34,8 @@ public class ProjectEvaluation {
     private Double score; // Puntaje de la evaluación para este proyecto
 
 
-    @OneToMany(mappedBy = "projectEvaluation")
-    private Set<SubcriterionScore> subcriterionScores = new HashSet<>();
+  /*   @OneToMany(mappedBy = "projectEvaluation")
+    private Set<SubcriterionScore> subcriterionScores = new HashSet<>(); */
 
 
 }
