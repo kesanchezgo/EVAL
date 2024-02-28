@@ -40,7 +40,7 @@ public class ProjectLoaderService {
         this.evaluationRepository = evaluationRepository;
     }
     public void loadProjectsFromSismo(Long evaluationId) {
-        String url = sismoUrl + "/duginf";
+        String url = sismoUrl + "/duginf/proyectos-concluidos";
 
         try {
             ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);

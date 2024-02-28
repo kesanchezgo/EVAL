@@ -131,19 +131,19 @@ public class ProjectEvaluationController {
             @RequestParam(defaultValue = "project.externalId") String sort,
             @RequestParam(defaultValue = "asc") String order,
             @RequestParam(required = false) Long evaluationId,
-            @RequestParam(required = false) String projectName
+            @RequestParam(required = false) String search
     ) {
         Page<ProjectEvaluation> projectEvaluations;
         Sort.Direction direction = Sort.Direction.fromString(order);
         Sort.Order sortOrder = new Sort.Order(direction, sort);
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortOrder));
     
-        if (evaluationId != null && projectName != null) {
-            projectEvaluations = projectEvaluationService.findByEvaluationIdAndProjectNameContainingIgnoreCase(evaluationId, projectName, pageable);
+        if (evaluationId != null && search != null) {
+            projectEvaluations = projectEvaluationService.findByEvaluationIdAndProjectNameContainingIgnoreCase(evaluationId, search, pageable);
         } else if (evaluationId != null) {
             projectEvaluations = projectEvaluationService.findByEvaluationId(evaluationId, pageable);
-        } else if (projectName != null) {
-            projectEvaluations = projectEvaluationService.findByProjectNameContainingIgnoreCase(projectName, pageable);
+        } else if (search != null) {
+            projectEvaluations = projectEvaluationService.findByProjectNameContainingIgnoreCase(search, pageable);
         } else {
             projectEvaluations = projectEvaluationService.findAll(pageable);
         }

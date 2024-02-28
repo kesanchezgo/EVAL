@@ -1,9 +1,6 @@
 package com.bezkoder.spring.security.postgresql.models;
-import java.util.HashSet;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import java.util.*;
 import jakarta.persistence.*;
 
 import lombok.AllArgsConstructor;

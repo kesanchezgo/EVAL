@@ -3,6 +3,8 @@ export interface Subcriterion {
     name: string;
     description: string;
     weight: number;
+    range1: number;
+    range2: number;
   }
   
   export interface Criterion {

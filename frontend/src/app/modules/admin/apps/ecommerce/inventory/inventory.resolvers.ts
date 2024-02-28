@@ -4,6 +4,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 import { InventoryService } from 'app/modules/admin/apps/ecommerce/inventory/inventory.service';
 import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryProduct, InventoryTag, InventoryVendor } from 'app/modules/admin/apps/ecommerce/inventory/inventory.types';
 import { ProjectResponse } from './project.types';import { CriteriaResponse } from './criteria.types';
+import { ProjectEvaluationResponse } from './project-evaluation.types';
 ;
 
 @Injectable({
@@ -181,7 +182,7 @@ export class InventoryProjectsResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ProjectResponse>
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ProjectEvaluationResponse>
     {
         // Aquí llamas al método getProjects de tu servicio
         return this._inventoryService.getProjects();

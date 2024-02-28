@@ -4,6 +4,7 @@ import { BehaviorSubject, filter, map, Observable, of, switchMap, take, tap, thr
 import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryProduct, InventoryTag, InventoryVendor } from 'app/modules/admin/apps/ecommerce/inventory/inventory.types';
 import {Project, ProjectResponse, Pageable, Proyecto  } from './project.types';
 import { Criterion, CriteriaResponse } from './criteria.types';
+import { ProjectEvaluationContentItem, ProjectEvaluationResponse, ProjectEvaluationPageable, PaginationInfo } from './project-evaluation.types';
 
 @Injectable({
     providedIn: 'root'
@@ -24,6 +25,11 @@ export class InventoryService
     
     private _projects: BehaviorSubject<Project[]> = new BehaviorSubject<Project[]>(null);
     private _pageable: BehaviorSubject<Pageable> = new BehaviorSubject<Pageable>(null);
+
+
+    private _projectEvaluations: BehaviorSubject<ProjectEvaluationContentItem[]> = new BehaviorSubject<ProjectEvaluationContentItem[]>(null);
+    private _pageableEvaluations: BehaviorSubject<ProjectEvaluationPageable> = new BehaviorSubject<ProjectEvaluationPageable>(null);
+    private _paginationInfoEvaluations: BehaviorSubject<PaginationInfo> = new BehaviorSubject<PaginationInfo>(null);
 
     private _proyecto: BehaviorSubject<Proyecto | null> = new BehaviorSubject(null);
     private _proyectos: BehaviorSubject<Proyecto[]> = new BehaviorSubject<Proyecto[]>(null);
@@ -93,7 +99,7 @@ export class InventoryService
     }
 
 
-    get pageable$(): Observable<Pageable>
+    /* get pageable$(): Observable<Pageable>
     {
         return this._pageable.asObservable();
     }
@@ -102,6 +108,22 @@ export class InventoryService
     get projects$(): Observable<Project[]>
     {
         return this._projects.asObservable();
+    } */
+
+    get projectEvaluationPaginationInfo$(): Observable<PaginationInfo>
+    {
+        return this._paginationInfoEvaluations.asObservable();
+    }
+
+    get projectEvaluationPageable$(): Observable<ProjectEvaluationPageable>
+    {
+        return this._pageableEvaluations.asObservable();
+    }
+
+
+    get projectEvaluations$(): Observable<ProjectEvaluationContentItem[]>
+    {
+        return this._projectEvaluations.asObservable();
     }
 
     get criterias$(): Observable<Criterion[]>
@@ -188,24 +210,38 @@ export class InventoryService
     getProjects(
         page: number = 0,
         size: number = 10,
-        sort: string = 'name',
+        sort: string = 'project.externalId',
         order: 'asc' | 'desc' | '' = 'asc',
-        search: string = ''
-      ): Observable<ProjectResponse> {
-        return this._httpClient.get<ProjectResponse>('http://vri.gestioninformacion.unsa.edu.pe/engine/collector/items/', {
+        search: string = '',
+        evaluation:number = 1
+      ): Observable<ProjectEvaluationResponse> {
+        return this._httpClient.get<ProjectEvaluationResponse>('http://localhost:8088/api/projectevaluation/project-evaluations', {
           params: {
             page: '' + page,
             size: '' + size,
             sort,
             order,
-            search
+            search,
+            evaluation
           }
         }).pipe(
-          tap((response: ProjectResponse) => {
-            this._projects.next(response.content);
-            this._pageable.next(response.pageable);
+          tap((response: ProjectEvaluationResponse) => {
+            this._projectEvaluations.next(response.content);
+            this._pageableEvaluations.next(response.pageable);
+            this._paginationInfoEvaluations.next({
+                last: response.last,
+                totalPages: response.totalPages,
+                totalElements: response.totalElements,
+                first: response.first,
+                size: response.size,
+                number: response.number,
+                sort: response.sort,
+                numberOfElements: response.numberOfElements,
+                empty: response.empty
+              });
             console.log("Pro: ",response.content);
             console.log("Pag: ",response.pageable);
+            console.log("PInfo: ",this._paginationInfoEvaluations.value);
           })
         );
       }
@@ -365,6 +401,10 @@ export class InventoryService
                 ))
             ))
         );
+    }
+
+    registerEvaluation(criterions: any[]): Observable<any[]> {
+        return this._httpClient.post<any[]>('http://localhost:8088/api/subcriterion-scores/multiple', criterions);
     }
 
     /**

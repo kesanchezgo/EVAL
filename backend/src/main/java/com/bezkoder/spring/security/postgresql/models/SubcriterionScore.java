@@ -8,8 +8,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor // Constructor sin argumentos
-@AllArgsConstructor // Constructor con todos los argumentos
+@NoArgsConstructor 
+@AllArgsConstructor
 @Entity
 @Table(name = "subcriterion_scores")
 public class SubcriterionScore {
@@ -24,10 +24,10 @@ public class SubcriterionScore {
     })
     private ProjectEvaluation projectEvaluation;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "subcriteria_id")
     private Subcriterion subcriterion;
 
-    private Double score; // Puntaje de la evaluación para este proyecto
+    private Double score; // Evaluation score for this project
 
 }
