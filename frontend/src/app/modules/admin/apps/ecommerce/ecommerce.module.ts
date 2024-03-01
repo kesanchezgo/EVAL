@@ -18,10 +18,14 @@ import { InventoryComponent } from 'app/modules/admin/apps/ecommerce/inventory/i
 import { InventoryListComponent } from 'app/modules/admin/apps/ecommerce/inventory/list/inventory.component';
 import { ecommerceRoutes } from 'app/modules/admin/apps/ecommerce/ecommerce.routing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { InventoryAssignedComponent } from './inventory/assigned/inventory.component';
+import { InventoryReviewedComponent } from './inventory/reviewed/inventory.component';
 @NgModule({
     declarations: [
         InventoryComponent,
-        InventoryListComponent
+        InventoryListComponent,
+        InventoryAssignedComponent,
+        InventoryReviewedComponent
     ],
     imports     : [
         RouterModule.forChild(ecommerceRoutes),

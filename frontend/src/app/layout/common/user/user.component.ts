@@ -4,6 +4,7 @@ import { BooleanInput } from '@angular/cdk/coercion';
 import { Subject, takeUntil } from 'rxjs';
 import { User } from 'app/core/user/user.types';
 import { UserService } from 'app/core/user/user.service';
+import { SocialAuthService } from 'angularx-social-login';
 
 @Component({
     selector       : 'user',
@@ -29,7 +30,8 @@ export class UserComponent implements OnInit, OnDestroy
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
-        private _userService: UserService
+        private _userService: UserService,
+        private authService: SocialAuthService
     )
     {
     }
@@ -48,10 +50,30 @@ export class UserComponent implements OnInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((user: User) => {
                 this.user = user;
-
+                console.log("user component: ", this.user);
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
+
+        const userString = localStorage.getItem('user');
+
+        // Verificar si el usuario existe en el localStorage
+        if (userString) {
+            // Deserializar la cadena JSON a un objeto JavaScript
+            const user = JSON.parse(userString);
+            this.user = user;
+            // Ahora puedes acceder a las propiedades del usuario
+            console.log(user.id);
+            console.log(user.name);
+            console.log(user.avatar);
+            console.log(user.email);
+            console.log(user.roles);
+            console.log(user.roles);
+        } else {
+            console.log('No se encontró ningún usuario en el localStorage');
+        }
+
+        
     }
 
     /**
@@ -93,6 +115,8 @@ export class UserComponent implements OnInit, OnDestroy
      */
     signOut(): void
     {
+        this.authService.signOut();
         this._router.navigate(['/sign-out']);
     }
+    
 }

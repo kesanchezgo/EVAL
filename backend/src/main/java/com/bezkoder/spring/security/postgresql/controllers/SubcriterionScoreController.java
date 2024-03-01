@@ -14,6 +14,7 @@ import com.bezkoder.spring.security.postgresql.models.SubcriterionScore;
 import com.bezkoder.spring.security.postgresql.payload.request.SubcriterionScoreRequest;
 import com.bezkoder.spring.security.postgresql.services.SubcriterionScoreService;
 
+@CrossOrigin(origins = {"http://localhost:4200/", "http://vri.gestioninformacion.unsa.edu.pe/}"})
 @RestController
 @RequestMapping("/api/subcriterion-scores")
 public class SubcriterionScoreController {
@@ -52,7 +53,7 @@ public class SubcriterionScoreController {
         return new ResponseEntity<>(createdSubcriterionScores, HttpStatus.CREATED);
     } */
 
-    @PostMapping("/multiple")
+    /* @PostMapping("/multiple")
     public ResponseEntity<List<SubcriterionScore>> createMultipleSubcriterionScores(@RequestBody List<SubcriterionScoreRequest> requests) {
         List<SubcriterionScore> createdSubcriterionScores = new ArrayList<>();
         
@@ -68,6 +69,29 @@ public class SubcriterionScoreController {
             
             SubcriterionScore createdSubcriterionScore = subcriterionScoreService.saveSubcriterionScore(subcriterionScore);
             createdSubcriterionScores.add(createdSubcriterionScore);
+        }
+        
+        return new ResponseEntity<>(createdSubcriterionScores, HttpStatus.CREATED);
+    } */
+
+    @PostMapping("/multiple")
+    public ResponseEntity<List<SubcriterionScore>> createMultipleSubcriterionScores(@RequestBody List<SubcriterionScoreRequest> requests) {
+        List<SubcriterionScore> createdSubcriterionScores = new ArrayList<>();
+        
+        for (SubcriterionScoreRequest request : requests) {
+            SubcriterionScore subcriterionScore = new SubcriterionScore();
+            ProjectEvaluation projectEvaluation = new ProjectEvaluation();
+            projectEvaluation.setId(request.getProjectEvaluation());
+            Subcriterion subcriterion = new Subcriterion();
+            subcriterion.setId(request.getSubcriterion());
+            subcriterionScore.setProjectEvaluation(projectEvaluation);
+            subcriterionScore.setSubcriterion(subcriterion);
+            subcriterionScore.setScore(request.getScore());
+            
+            /* SubcriterionScore createdSubcriterionScore = subcriterionScoreService.saveSubcriterionScore(subcriterionScore); */
+            createdSubcriterionScores.add(subcriterionScore);
+
+            createdSubcriterionScores = subcriterionScoreService.saveMultipleSubcriterionScores(createdSubcriterionScores);
         }
         
         return new ResponseEntity<>(createdSubcriterionScores, HttpStatus.CREATED);

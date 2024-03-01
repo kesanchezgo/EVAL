@@ -30,6 +30,7 @@ export interface ProjectEvaluationResponse {
     area1: string | null;
     area2: string | null;
     status: string;
+    condition: string;
   }
   
   export interface ProjectEvaluationPageable {

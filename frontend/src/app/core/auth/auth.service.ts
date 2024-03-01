@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
+import { User } from '../user/user.types';
 
 @Injectable()
 export class AuthService
@@ -89,6 +90,39 @@ export class AuthService
                 return of(response);
             })
         );
+    }
+
+    /**
+     * Sign in
+     *
+     * @param user
+     */
+    signInGoogle(user: User): Observable<any>
+    {
+        // Throw error, if the user is already logged in
+        if ( this._authenticated )
+        {
+            return throwError('User is already logged in.');
+        }
+
+        return this._httpClient.post('api/auth/sign-in-google','').pipe(
+           switchMap((response: any) => {
+
+               // Store the access token in the local storage
+               this.accessToken = response.accessToken;
+               console.log(this.accessToken);
+               // Set the authenticated flag to true
+               this._authenticated = true;
+
+               // Store the user on the user service
+               this._userService.user = user;
+               console.log(response);
+               // Return a new observable with the response
+               return of(response);
+           })
+       );
+
+
     }
 
     /**

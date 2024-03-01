@@ -3,21 +3,22 @@
         <div class="w-full max-w-80 sm:w-80 mx-auto sm:mx-0">
             <!-- Logo -->
             <div class="w-12">
-                <img src="assets/images/logo/logo.svg">
+                <!-- <img src="assets/images/logo/logo.svg"> -->
+                <img src="https://www.unsa.edu.pe/oucalidad/wp-content/themes/observatorio/img/unsa-logo.png">
             </div>
 
             <!-- Title -->
-            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Sign in</div>
-            <div class="flex items-baseline mt-0.5 font-medium">
+            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Iniciar Sesión</div>
+            <!-- <div class="flex items-baseline mt-0.5 font-medium">
                 <div>Don't have an account?</div>
                 <a
                     class="ml-1 text-primary-500 hover:underline"
                     [routerLink]="['/sign-up']">Sign up
                 </a>
-            </div>
+            </div> -->
 
             <!-- Alert -->
-            <fuse-alert
+         <!--    <fuse-alert
                 class="mt-8 -mb-4"
                 *ngIf="showAlert"
                 [appearance]="'outline'"
@@ -25,7 +26,7 @@
                 [type]="alert.type"
                 [@shake]="alert.type === 'error'">
                 {{alert.message}}
-            </fuse-alert>
+            </fuse-alert> -->
 
             <!-- Sign in form -->
             <form
@@ -34,7 +35,7 @@
                 #signInNgForm="ngForm">
 
                 <!-- Email field -->
-                <mat-form-field class="w-full">
+                <!-- <mat-form-field class="w-full">
                     <mat-label>Email address</mat-label>
                     <input
                         id="email"
@@ -46,10 +47,10 @@
                     <mat-error *ngIf="signInForm.get('email').hasError('email')">
                         Please enter a valid email address
                     </mat-error>
-                </mat-form-field>
+                </mat-form-field> -->
 
                 <!-- Password field -->
-                <mat-form-field class="w-full">
+                <!-- <mat-form-field class="w-full">
                     <mat-label>Password</mat-label>
                     <input
                         id="password"
@@ -74,10 +75,10 @@
                     <mat-error>
                         Password is required
                     </mat-error>
-                </mat-form-field>
+                </mat-form-field> -->
 
                 <!-- Actions -->
-                <div class="inline-flex items-end justify-between w-full mt-1.5">
+                <!-- <div class="inline-flex items-end justify-between w-full mt-1.5">
                     <mat-checkbox
                         [color]="'primary'"
                         [formControlName]="'rememberMe'">
@@ -87,10 +88,10 @@
                         class="text-md font-medium text-primary-500 hover:underline"
                         [routerLink]="['/forgot-password']">Forgot password?
                     </a>
-                </div>
+                </div> -->
 
                 <!-- Submit button -->
-                <button
+                <!-- <button
                     class="fuse-mat-button-large w-full mt-6"
                     mat-flat-button
                     [color]="'primary'"
@@ -103,20 +104,37 @@
                         *ngIf="signInForm.disabled"
                         [diameter]="24"
                         [mode]="'indeterminate'"></mat-progress-spinner>
+                </button> -->
+
+                <!-- Submit button google -->
+                <button
+                    class="fuse-mat-button-large w-full mt-6"
+                    mat-flat-button
+                    [color]="'primary'"
+                    [disabled]="signInForm.disabled"
+                    (click)="signInWithGoogle()">
+                    <span *ngIf="!signInForm.disabled">
+                        Ingresar con Google
+                    </span>
+                    <mat-progress-spinner
+                        *ngIf="signInForm.disabled"
+                        [diameter]="24"
+                        [mode]="'indeterminate'"></mat-progress-spinner>
                 </button>
 
                 <!-- Separator -->
-                <div class="flex items-center mt-8">
+                <!-- <div class="flex items-center mt-8">
                     <div class="flex-auto mt-px border-t"></div>
                     <div class="mx-2 text-secondary">Or continue with</div>
                     <div class="flex-auto mt-px border-t"></div>
-                </div>
+                </div> -->
 
                 <!-- Single sign-on buttons -->
-                <div class="flex items-center mt-8 space-x-4">
+                <!-- <div class="flex items-center mt-8 space-x-4">
                     <button
                         class="flex-auto"
                         type="button"
+                        (click)="signInWithGoogle()"
                         mat-stroked-button>
                         <mat-icon
                             class="icon-size-5"
@@ -138,7 +156,7 @@
                             class="icon-size-5"
                             [svgIcon]="'feather:github'"></mat-icon>
                     </button>
-                </div>
+                </div> -->
             </form>
         </div>
     </div>
@@ -166,10 +184,10 @@
         <!-- Content -->
         <div class="z-10 relative w-full max-w-2xl">
             <div class="text-7xl font-bold leading-none text-gray-100">
-                <div>Welcome to</div>
-                <div>our community</div>
+                <div>Bienvenido</div>
+                <div>al Sistema VRI-DUGINF</div>
             </div>
-            <div class="mt-6 text-lg tracking-tight leading-6 text-gray-400">
+            <!--div class="mt-6 text-lg tracking-tight leading-6 text-gray-400">
                 Fuse helps developers to build organized and well coded dashboards full of beautiful and rich modules.
                 Join us and start building your application today.
             </div>
@@ -189,7 +207,7 @@
                         src="assets/images/avatars/male-16.jpg">
                 </div>
                 <div class="ml-4 font-medium tracking-tight text-gray-400">More than 17k people joined us, it's your turn</div>
-            </div>
+            </div-->
         </div>
     </div>
 </div>

@@ -5,7 +5,8 @@ import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryProduc
 import {Project, ProjectResponse, Pageable, Proyecto  } from './project.types';
 import { Criterion, CriteriaResponse } from './criteria.types';
 import { ProjectEvaluationContentItem, ProjectEvaluationResponse, ProjectEvaluationPageable, PaginationInfo } from './project-evaluation.types';
-
+import { environment } from 'environments/environment';import { isNullBlankZeroUndefined } from 'app/core/util/ValidateData';
+;
 @Injectable({
     providedIn: 'root'
 })
@@ -213,16 +214,20 @@ export class InventoryService
         sort: string = 'project.externalId',
         order: 'asc' | 'desc' | '' = 'asc',
         search: string = '',
-        evaluation:number = 1
+        evaluation:number = 1,
+        userId: string = '',
+        condition: string =''
       ): Observable<ProjectEvaluationResponse> {
-        return this._httpClient.get<ProjectEvaluationResponse>('http://localhost:8088/api/projectevaluation/project-evaluations', {
+        return this._httpClient.get<ProjectEvaluationResponse>(environment.evalsys+'api/projectevaluation/project-evaluations', {
           params: {
             page: '' + page,
             size: '' + size,
             sort,
             order,
             search,
-            evaluation
+            evaluation,
+            userId,
+            condition
           }
         }).pipe(
           tap((response: ProjectEvaluationResponse) => {
@@ -254,7 +259,7 @@ export class InventoryService
         order: 'asc' | 'desc' | '' = 'asc',
         search: string = ''
       ): Observable<CriteriaResponse> {
-        return this._httpClient.get<CriteriaResponse>('http://localhost:8088/api/evaluations/1/criteria', {
+        return this._httpClient.get<CriteriaResponse>(environment.evalsys+'api/evaluations/1/criteria', {
           /* params: {
             page: '' + page,
             size: '' + size,
@@ -268,6 +273,19 @@ export class InventoryService
             console.log("Crit: ",response);
           })
         );
+      }
+
+      getRolByEmail(
+        email:string
+      ):
+        Observable<any>
+      {
+        let url = environment.evalsys + `api/users/roles/${email}`;
+      
+       /*  if (!isNullBlankZeroUndefined(email)){
+            url = url + `&correo=${email}`;
+        } */
+        return this._httpClient.get<any>(url);
       }
 
       
@@ -339,6 +357,7 @@ export class InventoryService
         );
     }
 
+
     /**
      * Create product
      */
@@ -404,7 +423,7 @@ export class InventoryService
     }
 
     registerEvaluation(criterions: any[]): Observable<any[]> {
-        return this._httpClient.post<any[]>('http://localhost:8088/api/subcriterion-scores/multiple', criterions);
+        return this._httpClient.post<any[]>(environment.evalsys+'api/subcriterion-scores/multiple', criterions);
     }
 
     /**

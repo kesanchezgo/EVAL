@@ -1,4 +1,6 @@
 package com.bezkoder.spring.security.postgresql.models;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 
 import lombok.AllArgsConstructor;
@@ -12,6 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor // Constructor con todos los argumentos
 @Entity
 @Table(name = "user_project_assignments")
+@JsonIgnoreProperties({"user"})
 public class UserProjectAssignment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +26,7 @@ public class UserProjectAssignment {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "project_id")
     private Project project;
 

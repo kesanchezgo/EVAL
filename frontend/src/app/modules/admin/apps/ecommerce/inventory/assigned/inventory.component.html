@@ -9,7 +9,7 @@
             <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
         </div>
         <!-- Title -->
-        <div class="text-4xl font-extrabold tracking-tight">Proyectos</div>
+        <div class="text-4xl font-extrabold tracking-tight">Proyectos asignados</div>
         <!-- Actions -->
         <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
             <!-- Search -->
@@ -81,7 +81,7 @@
                                 [mat-sort-header]="'project.condition'">
                                 Condi.
                             </div>
-                            <div class="hidden sm:block">Detalle</div>
+                            <div class="hidden sm:block">Evaluar</div>
                         </div>
                         <!-- Rows -->
                         <ng-container *ngIf="(projects$ | async) as projects">
@@ -414,8 +414,7 @@
                         </div>
                     </form>
                 </div> -->
-                <!-- review -->
-                <!-- <div class="flex border-b">
+                <div class="flex border-b">
                     <form class="flex flex-col w-full" [formGroup]="evaluationForm">
                         <div class="flex flex-col sm:flex-row p-8">
                             <div class="flex flex-auto flex-wrap">
@@ -465,7 +464,7 @@
                             </div>
                         </div>
                     </form>
-                </div> -->
+                </div>
                 
 
                 </div>

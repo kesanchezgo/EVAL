@@ -84,10 +84,23 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 icon    : 'heroicons_outline:shopping-cart',
                 children: [
                     {
-                        id   : 'apps.ecommerce.inventory',
-                        title: 'Lista',
+                        id   : 'apps.ecommerce.all',
+                        title: 'Todos',
                         type : 'basic',
-                        link : '/apps/ecommerce/inventory'
+                        link : '/apps/ecommerce/projects/all'
+                    },
+
+                    {
+                        id   : 'apps.ecommerce.assigned',
+                        title: 'Asignados',
+                        type : 'basic',
+                        link : '/apps/ecommerce/projects/assigned'
+                    },
+                    {
+                        id   : 'apps.ecommerce.reviewed',
+                        title: 'Revisados',
+                        type : 'basic',
+                        link : '/apps/ecommerce/projects/reviewed'
                     }
                 ]
             }/* ,
