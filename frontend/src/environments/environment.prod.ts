@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    evalsys: 'https://vri.gestioninformacion.unsa.edu.pe/s_eval/'
+    evalsys: 'http://vri.gestioninformacion.unsa.edu.pe/s_eval/'
 };
