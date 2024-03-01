@@ -14,7 +14,7 @@ import com.bezkoder.spring.security.postgresql.models.SubcriterionScore;
 import com.bezkoder.spring.security.postgresql.payload.request.SubcriterionScoreRequest;
 import com.bezkoder.spring.security.postgresql.services.SubcriterionScoreService;
 
-@CrossOrigin(origins = {"http://localhost:4200/", "http://vri.gestioninformacion.unsa.edu.pe/}"})
+@CrossOrigin(origins = {"http://localhost:4200/", "http://vri.gestioninformacion.unsa.edu.pe/"})
 @RequestMapping("/api/subcriterion-scores")
 @RestController
 public class SubcriterionScoreController {

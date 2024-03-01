@@ -20,7 +20,7 @@ import com.bezkoder.spring.security.postgresql.repository.EvaluationRepository;
 import org.springframework.data.domain.Sort;
 import java.util.Comparator;
 
-@CrossOrigin(origins = {"http://localhost:4200/", "http://vri.gestioninformacion.unsa.edu.pe/}"})
+@CrossOrigin(origins = {"http://localhost:4200/", "http://vri.gestioninformacion.unsa.edu.pe/"})
 @RestController
 @RequestMapping("/api/evaluations")
 public class EvaluationController {

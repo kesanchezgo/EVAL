@@ -11,7 +11,7 @@ import com.bezkoder.spring.security.postgresql.services.ProjectLoaderService;
 import io.jsonwebtoken.io.IOException;
 
 
-@CrossOrigin(origins = {"http://localhost:4200/", "http://vri.gestioninformacion.unsa.edu.pe/}"})
+@CrossOrigin(origins = {"http://localhost:4200/", "http://vri.gestioninformacion.unsa.edu.pe/"})
 @RequestMapping("/api")
 @RestController
 public class ProjectLoaderController {

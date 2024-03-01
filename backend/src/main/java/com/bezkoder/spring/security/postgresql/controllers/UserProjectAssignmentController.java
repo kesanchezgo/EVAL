@@ -26,7 +26,7 @@ import org.springframework.data.domain.Sort;
 
 import java.util.Optional;
 
-@CrossOrigin(origins = {"http://localhost:4200/", "http://vri.gestioninformacion.unsa.edu.pe/}"})
+@CrossOrigin(origins = {"http://localhost:4200/", "http://vri.gestioninformacion.unsa.edu.pe/"})
 @RequestMapping("/api/projectassignment")
 @RestController
 public class UserProjectAssignmentController {
