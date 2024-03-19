@@ -1,10 +1,12 @@
 package com.bezkoder.spring.security.postgresql.payload.response;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor // Constructor sin argumentos
 public class SubcriterionResponse {
 
@@ -12,13 +14,7 @@ public class SubcriterionResponse {
     private String name;
     private String description;
     private double weight;
-
-    public SubcriterionResponse(Long id, String name, String description, double weight) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.weight = weight;
-    }
-
+    private int range1;
+    private int range2;
     // Getters and Setters
 }

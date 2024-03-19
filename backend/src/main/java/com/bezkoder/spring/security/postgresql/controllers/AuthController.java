@@ -32,7 +32,7 @@ import com.bezkoder.spring.security.postgresql.repository.UserRepository;
 import com.bezkoder.spring.security.postgresql.security.jwt.JwtUtils;
 import com.bezkoder.spring.security.postgresql.security.services.UserDetailsImpl;
 
-@CrossOrigin(origins = "http://localhost:8100/", maxAge = 3600)
+@CrossOrigin(origins = {"http://localhost:4200/", "http://vri.gestioninformacion.unsa.edu.pe/}"})
 //@CrossOrigin(origins = {"http://localhost:8100/", "http://vps-zap907917-1.zap-srv.com", "http://proyectos-vri.unsa.edu.pe:9090"})
 @RestController
 @RequestMapping("/api/auth")

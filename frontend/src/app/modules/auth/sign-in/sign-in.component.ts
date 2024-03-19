@@ -1,9 +1,14 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, NgForm, Validators } from '@angular/forms';
+import { ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
+import { GoogleLoginProvider, SocialAuthService, SocialUser } from 'angularx-social-login';
 import { AuthService } from 'app/core/auth/auth.service';
+
+import { User } from 'app/core/user/user.types';
+
+import { InventoryService } from 'app/modules/admin/apps/ecommerce/inventory/inventory.service';
 
 @Component({
     selector     : 'auth-sign-in',
@@ -19,8 +24,10 @@ export class AuthSignInComponent implements OnInit
         type   : 'success',
         message: ''
     };
-    signInForm: UntypedFormGroup;
+    signInForm: FormGroup;
     showAlert: boolean = false;
+    socialUser: SocialUser;
+    user: User;
 
     /**
      * Constructor
@@ -28,8 +35,11 @@ export class AuthSignInComponent implements OnInit
     constructor(
         private _activatedRoute: ActivatedRoute,
         private _authService: AuthService,
-        private _formBuilder: UntypedFormBuilder,
-        private _router: Router
+        private settingService: InventoryService,
+        private _formBuilder: FormBuilder,
+        private _router: Router,
+        private authService: SocialAuthService,
+        private _changeDetectorRef: ChangeDetectorRef,
     )
     {
     }
@@ -49,6 +59,14 @@ export class AuthSignInComponent implements OnInit
             password  : ['admin', Validators.required],
             rememberMe: ['']
         });
+
+        this.user = {
+            id    : 'cfaad35d-07a3-4447-a6c3-d8c3d54fd5df',
+            name  : 'Kevin Sanchez Gomez',
+            email : 'hughes.brian@company.com',
+            avatar: 'assets/images/avatars/brian-hughes.jpg',
+            status: 'online'
+        };
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -105,5 +123,60 @@ export class AuthSignInComponent implements OnInit
                     this.showAlert = true;
                 }
             );
+    }
+
+    signInWithGoogle(): void {
+        this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(
+            (data) => {
+                this.socialUser= data;
+                const host = this.socialUser.email.split('@').pop();
+                
+                this.user.id = this.socialUser.idToken;
+                this.user.name = this.socialUser.firstName+' '+this.socialUser.lastName;
+                this.user.email = this.socialUser.email;
+                //this.user.email = "asilva@unsa.edu.pe";
+                this.user.avatar = this.socialUser.photoUrl;
+                this.user.status = 'online';
+                this.settingService.getRolByEmail(
+                    this.user.email
+                ).subscribe((response: any) => {
+                   
+                    if(response !=null){
+                        console.log("email_response: ",response);
+                        this.user.roles=response.roles;
+                        this.user.id=response.id;
+                        localStorage.setItem('user',JSON.stringify(this.user));
+                        console.log('user',JSON.stringify(this.user));
+                        this._changeDetectorRef.markForCheck();
+                        // Sign in
+
+                        /* if(host!=='unsa.edu.pe' && (this.user.rol!==3 && this.user.rol!==6)){
+                            this.authService.signOut();
+                            return;
+                        } */
+                        this._authService.signInGoogle(this.user)
+                        .subscribe(
+                            () => {
+
+                                // Set the redirect url.
+                                // The '/signed-in-redirect' is a dummy url to catch the request and redirect the user
+                                // to the correct page after a successful sign in. This way, that url can be set via
+                                // routing file and we don't have to touch here.
+                                const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
+
+                                // Navigate to the redirect url
+                                this._router.navigateByUrl(redirectURL);
+
+                            },
+                            (response) => {
+
+                            }
+                        );
+                    }
+                });
+                
+                
+            }
+        );
     }
 }

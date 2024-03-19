@@ -1,0 +1,486 @@
+<div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
+
+    <!-- Header -->
+    <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 border-b">
+        <!-- Loader -->
+        <div
+            class="absolute inset-x-0 bottom-0"
+            *ngIf="isLoading">
+            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+        </div>
+        <!-- Title -->
+        <div class="text-4xl font-extrabold tracking-tight">Proyectos asignados</div>
+        <!-- Actions -->
+        <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <!-- Search -->
+            <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">
+                <mat-icon
+                    class="icon-size-5"
+                    matPrefix
+                    [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                <input
+                    matInput
+                    [formControl]="searchInputControl"
+                    [autocomplete]="'off'"
+                    [placeholder]="'Buscar projectos'">
+            </mat-form-field>
+            <!-- Add project button -->
+            <!-- <button
+                class="ml-4"
+                mat-flat-button
+                [color]="'primary'"
+                (click)="createproject()">
+                <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                <span class="ml-2 mr-1">Add</span>
+            </button> -->
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="flex flex-auto overflow-hidden">
+
+        <!-- projects list -->
+        <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
+            <ng-container *ngIf="(projects$ | async) as projects">
+                <ng-container *ngIf="projects.length > 0; else noprojects">
+                    <div class="grid">
+                        <!-- Header -->
+                        <div
+                            class="inventory-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                            matSort
+                            matSortDisableClear>
+                            <div></div>
+                            <div
+                                class="hidden md:block"
+                                [mat-sort-header]="'project.externalId'">
+                                ID
+                            </div>
+                            <div [mat-sort-header]="'project.name'">Proyecto</div>
+                            <div
+                                class="hidden sm:block"
+                                [mat-sort-header]="'project.area1'">
+                                Area 1
+                            </div>
+                            <div
+                                class="hidden sm:block"
+                                [mat-sort-header]="'project.area2'">
+                                Area 2
+                            </div>
+                            <div
+                                class="hidden lg:block"
+                                [mat-sort-header]="'score'">
+                                Puntaje
+                            </div>
+                            <div
+                                class="hidden lg:block"
+                                [mat-sort-header]="'project.status'">
+                                Estado
+                            </div>
+                            <div
+                                class="hidden lg:block"
+                                [mat-sort-header]="'project.condition'">
+                                Condi.
+                            </div>
+                            <div class="hidden sm:block">Evaluar</div>
+                        </div>
+                        <!-- Rows -->
+                        <ng-container *ngIf="(projects$ | async) as projects">
+                            <ng-container *ngFor="let item of projects; trackBy: trackByFn">
+                                <div class="inventory-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
+
+                                    <!-- Image -->
+                                    <div class="flex items-center">
+                                        <div class="relative flex flex-0 items-center justify-center w-12 h-12 mr-6 rounded overflow-hidden border">
+                                            <img
+                                                class="w-8"
+                                                *ngIf="item.thumbnail"
+                                                [alt]="'item thumbnail image'"
+                                                [src]="item.thumbnail">
+                                            <div
+                                                class="flex items-center justify-center w-full h-full text-xs font-semibold leading-none text-center uppercase"
+                                                *ngIf="!item.thumbnail">
+                                                NO THUMB
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- ID -->
+                                    <div class="hidden md:block truncate">
+                                        {{item.project.externalId}}
+                                    </div>
+
+                                    <!-- Name -->
+                                    <div class="truncate">
+                                        {{item.project.name}}
+                                    </div>
+
+                                    <!-- Area 1 -->
+                                    <div class="hidden sm:block">
+                                        {{item.project.area1}}
+                                    </div>
+
+                                    <!-- Area 2 -->
+                                    <div class="hidden sm:block">
+                                        {{item.project.area2}}
+                                    </div>
+
+                                    <!-- Score -->
+                                    <div class="hidden lg:flex items-center">
+                                        <div class="min-w-4">{{item.score.toFixed(2)}}</div>
+                                        <!-- Low score -->
+                                        <div
+                                            class="flex items-end ml-2 w-1 h-4 bg-red-200 rounded overflow-hidden"
+                                            *ngIf="item.score < 10">
+                                            <div class="flex w-full h-1/3 bg-red-600"></div>
+                                        </div>
+                                        <!-- Medium score -->
+                                        <div
+                                            class="flex items-end ml-2 w-1 h-4 bg-orange-200 rounded overflow-hidden"
+                                            *ngIf="item.score >= 10 && item.score < 20">
+                                            <div class="flex w-full h-2/4 bg-orange-400"></div>
+                                        </div>
+                                        <!-- High score -->
+                                        <div
+                                            class="flex items-end ml-2 w-1 h-4 bg-green-100 rounded overflow-hidden"
+                                            *ngIf="item.score >= 20">
+                                            <div class="flex w-full h-full bg-green-400"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Status -->
+                                    <!-- <div class="hidden lg:block">
+                                        <ng-container *ngIf="item.project.active">
+                                            <mat-icon
+                                                class="text-green-400 icon-size-5"
+                                                [svgIcon]="'heroicons_solid:check'"></mat-icon>
+                                        </ng-container>
+                                        <ng-container *ngIf="!item.project.active">
+                                            <mat-icon
+                                                class="text-gray-400 icon-size-5"
+                                                [svgIcon]="'heroicons_solid:x'"></mat-icon>
+                                        </ng-container>
+                                    </div> -->
+                                    <div class="hidden lg:block">
+                                        <!-- cerrado -->
+                                        <ng-container *ngIf="item.project.status === 'C'">
+                                            <mat-icon class="text-green-400 icon-size-5" [svgIcon]="'heroicons_solid:check'" matTooltip="Finalizado"></mat-icon>
+                                        </ng-container>
+                                        <!-- proceso de cierre -->
+                                        <ng-container *ngIf="item.project.status === 'D'">
+                                            <mat-icon class="text-yellow-400 icon-size-5" [svgIcon]="'heroicons_solid:trending-up'" matTooltip="Próximo a finalizar"></mat-icon>
+                                        </ng-container>
+                                        <!-- en ejecución -->
+                                        <ng-container *ngIf="item.project.status === 'E'">
+                                            <mat-icon class="text-blue-400 icon-size-5" [svgIcon]="'heroicons_solid:refresh'" matTooltip="En progreso"></mat-icon>
+                                        </ng-container>
+                                    </div>
+
+                                    <div class="hidden lg:block">
+                                        <!-- cerrado -->
+                                        <ng-container *ngIf="item.project.condition === 'N'">
+                                            <mat-icon class="text-blue-400 icon-size-5" [svgIcon]="'heroicons_solid:document-add'" matTooltip="Sin asignar"></mat-icon>
+                                        </ng-container>
+                                        <!-- proceso de cierre -->
+                                        <ng-container *ngIf="item.project.condition === 'A'">
+                                            <mat-icon class="text-yellow-400 icon-size-5" [svgIcon]="'heroicons_solid:user-group'" matTooltip="Asignado para revision"></mat-icon>
+                                        </ng-container>
+                                        <!-- en ejecución -->
+                                        <ng-container *ngIf="item.project.condition === 'R'">
+                                            <mat-icon class="text-green-400 icon-size-5" [svgIcon]="'heroicons_solid:check-circle'" matTooltip="Revisado"></mat-icon>
+                                        </ng-container>
+                                    </div>
+                                    <!-- Details button -->
+                                    <div>
+                                        <!-- <div *ngIf="selectedProject">
+                                            {{ selectedProject.id_proyecto }}
+                                          </div> -->
+                                        <button
+                                            class="min-w-10 min-h-7 h-7 px-2 leading-6"
+                                            mat-stroked-button
+                                            (click)="toggleDetails(item.project.externalId, item.id, item.project.id)">
+                                            <mat-icon
+                                                class="icon-size-5"
+                                                [svgIcon]="selectedProject?.id_proyecto === getCodeNumberSISMO(item.project.externalId) ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'"></mat-icon>
+                                        </button>
+                                        
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                    <ng-container *ngIf="selectedProject?.id_proyecto === getCodeNumberSISMO(item.project.externalId)">
+                                        <ng-container *ngTemplateOutlet="rowDetailsTemplate; context: {$implicit: item}"></ng-container>
+                                    </ng-container>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+
+                    <mat-paginator
+                        class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+                        [ngClass]="{'pointer-events-none': isLoading}"
+                        [length]="pagination.totalElements"
+                        [pageIndex]="pagination.number"
+                        [pageSize]="pagination.size"
+                        [pageSizeOptions]="[5, 10, 25, 100]"
+                        [showFirstLastButtons]="true"></mat-paginator>
+
+                </ng-container>
+            </ng-container>
+
+          
+
+            <ng-template #rowDetailsTemplate let-project>
+                <div class="shadow-lg overflow-hidden">
+                  <div class="flex border-b">
+                    <form class="flex flex-col w-full" [formGroup]="selectedProjectForm">
+              
+                      <div class="flex flex-col sm:flex-row p-8">
+              
+                        <!-- Project fields -->
+                        <div class="flex flex-auto flex-wrap">
+                          <!-- General project information -->
+                          <div class="flex flex-col w-full lg:w-1/2 sm:pl-8">
+                           
+                            <div class="flex">
+                                <mat-form-field class="w-1/3 pr-2">
+                                    <mat-label>ID Proyecto</mat-label>
+                                    <input matInput formControlName="id_proyecto" readonly>
+                                </mat-form-field>
+                                <mat-form-field class="w-1/3 px-2">
+                                    <mat-label>Fech Ini Proy</mat-label>
+                                    <input matInput formControlName="fech_ini_proy" readonly>
+                                </mat-form-field>
+                                <mat-form-field class="w-1/3 pl-2">
+                                    <mat-label>Monto Cont</mat-label>
+                                    <input matInput formControlName="monto_cont" readonly>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="flex">
+                                <mat-form-field class="w-1/3 pr-2">
+                                    <mat-label>Estado Proyecto</mat-label>
+                                    <input matInput formControlName="estado_proyecto" readonly>
+                                </mat-form-field>
+                                <mat-form-field class="w-1/3 px-2">
+                                    <mat-label>Estado Contrato</mat-label>
+                                    <input matInput formControlName="estado_contrato" readonly>
+                                </mat-form-field>
+                                <mat-form-field class="w-1/3 pl-2">
+                                    <mat-label>Fase Estado Proyecto</mat-label>
+                                    <input matInput formControlName="fase_estado_proyecto" readonly>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="flex">
+                                <mat-form-field class="w-2/3 pr-2">
+                                    <mat-label>Principal</mat-label>
+                                    <input matInput formControlName="principal" readonly>
+                                </mat-form-field>
+                                <mat-form-field class="w-1/3 pl-2">
+                                    <mat-label>Tipo Subvención</mat-label>
+                                    <input matInput formControlName="tiposubven" readonly>
+                                </mat-form-field>
+                            </div>
+
+                              <!-- Integrantes -->
+                              <mat-form-field class="w-full">
+                                  <mat-label>Integrantes</mat-label>
+                                  <textarea matInput formControlName="integrantes" rows="3" readonly></textarea>
+                              </mat-form-field>
+                            
+                            <!-- Claves Proy -->
+                            <mat-form-field class="w-full">
+                                <mat-label>Claves Proy</mat-label>
+                                <textarea matInput formControlName="claves_proy" readonly></textarea>
+                            </mat-form-field>
+                            <!-- Nombre Área Prioritaria -->
+                            <mat-form-field class="w-full">
+                                <mat-label>Nombre Área Prioritaria</mat-label>
+                                <!-- Input de texto de solo lectura -->
+                                <input matInput formControlName="nomb_areapri" readonly>
+                            </mat-form-field>
+
+                            <!-- Área Investigación -->
+                            <mat-form-field class="w-full">
+                                <mat-label>Área Investigación</mat-label>
+                                <!-- Input de texto de solo lectura -->
+                                <input matInput formControlName="area_investigacion" readonly>
+                            </mat-form-field>
+
+                            <!-- Línea Investigación -->
+                            <mat-form-field class="w-full">
+                                <mat-label>Línea Investigación</mat-label>
+                                <!-- Input de texto de solo lectura -->
+                                <input matInput formControlName="linea_investigacion" readonly>
+                            </mat-form-field>
+
+                            <!-- Área OCDE -->
+                            <mat-form-field class="w-full">
+                                <mat-label>Área OCDE</mat-label>
+                                <!-- Input de texto de solo lectura -->
+                                <input matInput formControlName="area_ocde" readonly>
+                            </mat-form-field>
+
+                            <!-- Sub-Área OCDE -->
+                            <mat-form-field class="w-full">
+                                <mat-label>Sub-Área OCDE</mat-label>
+                                <!-- Input de texto de solo lectura -->
+                                <input matInput formControlName="sub_area_ocde" readonly>
+                            </mat-form-field>
+
+                            <!-- Disciplina OCDE -->
+                            <mat-form-field class="w-full">
+                                <mat-label>Disciplina OCDE</mat-label>
+                                <!-- Input de texto de solo lectura -->
+                                <input matInput formControlName="disciplina_ocde" readonly>
+                            </mat-form-field>
+                          </div>
+              
+                          <!-- Additional project information -->
+                          <div class="flex flex-col w-full lg:w-1/2 sm:pl-8">
+                            <!-- Resumen Ejecutivo -->
+                            <mat-form-field class="w-full">
+                                <mat-label>Resumen Ejecutivo</mat-label>
+                                <textarea matInput formControlName="resumen_ejecutivo" rows="10" readonly></textarea>
+                            </mat-form-field>
+                            
+                            <!-- Obj General Proy -->
+                            <mat-form-field class="w-full">
+                                <mat-label>Obj General Proy</mat-label>
+                                <textarea matInput formControlName="obj_general_proy" rows="3" readonly></textarea>
+                            </mat-form-field>
+                            <!-- Impacto Proy -->
+                            <mat-form-field class="w-full">
+                                <mat-label>Impacto Proy</mat-label>
+                                <textarea matInput formControlName="impacto_proy" rows="10" readonly></textarea>
+                            </mat-form-field>
+                            
+                            <!-- Resul Espe Proy -->
+                            <mat-form-field class="w-full">
+                                <mat-label>Resul Espe Proy</mat-label>
+                                <textarea matInput formControlName="resul_espe_proy" rows="10" readonly></textarea>
+                            </mat-form-field>
+                            
+                            <!-- Hipo Proy -->
+                            <mat-form-field class="w-full">
+                                <mat-label>Hipo Proy</mat-label>
+                                <textarea matInput formControlName="hipo_proy" rows="5" readonly></textarea>
+                            </mat-form-field>
+                            <!-- Just Proy -->
+                            <mat-form-field class="w-full">
+                                <mat-label>Just Proy</mat-label>
+                                <textarea matInput formControlName="just_proy" rows="10" readonly></textarea>
+                            </mat-form-field>
+                              
+                            <!-- Otros campos del formulario... -->
+                          </div>
+                        </div>
+              
+                      </div>
+              
+                    </form>
+                  </div>
+
+                <!-- <div class="flex border-t">
+                    <form class="flex flex-col w-full" [formGroup]="evaluationForm">
+                        <div class="flex flex-col sm:flex-row p-8">
+                            <div class="flex flex-auto flex-wrap">
+                                <div class="flex flex-col w-full">
+                                    <h3 class="text-lg font-semibold mb-4">Criterios de evaluación</h3>
+                                    <ng-container *ngIf="(criterias$ | async) as criterias">
+                                        <div *ngFor="let criteria of criterias">
+                                            <h4 class="text-md font-semibold mb-2">{{ criteria.name }}</h4>
+                                            <select [attr.formControlName]="criteria.id" class="w-64 border border-gray-300 rounded px-2 py-1">
+                                                <option *ngFor="let subcriteria of criteria.subcriteria" [value]="subcriteria.id">{{ subcriteria.description }}</option>
+                                            </select>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between w-full border-t px-8 py-4">
+                            <div class="flex items-center">
+                                <div class="flex items-center mr-4" *ngIf="flashMessage">
+                                    <ng-container *ngIf="flashMessage === 'success'">
+                                        <mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:check'"></mat-icon>
+                                        <span class="ml-2">Project updated</span>
+                                    </ng-container>
+                                    <ng-container *ngIf="flashMessage === 'error'">
+                                        <mat-icon class="text-red-500" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                                        <span class="ml-2">An error occurred, try again!</span>
+                                    </ng-container>
+                                </div>
+                                <button mat-flat-button [color]="'primary'" (click)="submitEvaluation()">Enviar Evaluación</button>
+                            </div>
+                        </div>
+                    </form>
+                </div> -->
+                <div class="flex border-b">
+                    <form class="flex flex-col w-full" [formGroup]="evaluationForm">
+                        <div class="flex flex-col sm:flex-row p-8">
+                            <div class="flex flex-auto flex-wrap">
+                                <div class="flex flex-col w-full">
+                                    <h3 class="text-lg font-semibold mb-4">Criterios de evaluación</h3>
+                                    <ng-container *ngIf="(criterias$ | async) as criterias">
+                                        <div *ngFor="let criteria of criterias">
+                                          <div class="flex">
+                                            <mat-form-field class="w-5/6 pl-2">
+                                              <mat-label>{{ criteria.name }}</mat-label>
+                                              <mat-select [formControlName]="criteria.id" (selectionChange)="onSubcriterionChange($event.value, criteria.id)">
+                                                <mat-option *ngFor="let subcriteria of criteria.subcriteria" [value]="subcriteria">
+                                                  {{ subcriteria.description }}
+                                                </mat-option>
+                                              </mat-select>
+                                              <mat-error *ngIf="criteria.id && evaluationForm.get(criteria.id.toString()).hasError('required')">
+                                                Debe seleccionar un valor.
+                                              </mat-error>
+                                            </mat-form-field>
+                                      
+                                            <mat-form-field class="w-1/6 px-2">
+                                              <mat-label>Puntaje</mat-label>
+                                              <input matInput type="number" [formControlName]="criteria.id + '_score'" placeholder="Puntuación"
+                                                     [min]="0" [max]="20" required>
+                                              <mat-error *ngIf="evaluationForm.get(criteria.id + '_score').hasError('required')">Debe ingresar una puntuación.</mat-error>
+                                            </mat-form-field>
+                                          </div>
+                                        </div>
+                                      </ng-container>
+                                      
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between w-full border-t px-8 py-4">
+                            <div class="flex items-center">
+                                <div class="flex items-center mr-4" *ngIf="flashMessage">
+                                    <ng-container *ngIf="flashMessage === 'success'">
+                                        <mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:check'"></mat-icon>
+                                        <span class="ml-2">Project updated</span>
+                                    </ng-container>
+                                    <ng-container *ngIf="flashMessage === 'error'">
+                                        <mat-icon class="text-red-500" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                                        <span class="ml-2">An error occurred, try again!</span>
+                                    </ng-container>
+                                </div>
+                                <button mat-flat-button [color]="'primary'" (click)="submitEvaluation()"  [disabled]="!evaluationForm.valid">Enviar Evaluación</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                
+
+                </div>
+              </ng-template>
+              
+              
+              
+              
+              
+
+            <ng-template #noprojects>
+                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">No hay proyectos! :(</div>
+            </ng-template>
+
+        </div>
+
+    </div>
+
+</div>

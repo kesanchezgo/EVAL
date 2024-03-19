@@ -38,6 +38,10 @@ public class Project {
     @Size(max = 1)
     private String status;
 
+    @NotBlank
+    @Size(max = 1)
+    private String condition;
+
     /* @OneToMany(mappedBy = "project")
     private Set<ProjectEvaluation> projectEvaluations = new HashSet<>(); */
 

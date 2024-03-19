@@ -24,6 +24,9 @@ public class Subcriterion {
 
     private double weight; // Variable for criterion weight (percentage)
 
+    private Integer range1; // Initial range of the evaluation (optional)
+    private Integer range2; // Final range of the evaluation (optional)
+
     // Otros atributo
 
     // Getters y Setters

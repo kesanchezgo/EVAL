@@ -17,11 +17,15 @@ import { SharedModule } from 'app/shared/shared.module';
 import { InventoryComponent } from 'app/modules/admin/apps/ecommerce/inventory/inventory.component';
 import { InventoryListComponent } from 'app/modules/admin/apps/ecommerce/inventory/list/inventory.component';
 import { ecommerceRoutes } from 'app/modules/admin/apps/ecommerce/ecommerce.routing';
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { InventoryAssignedComponent } from './inventory/assigned/inventory.component';
+import { InventoryReviewedComponent } from './inventory/reviewed/inventory.component';
 @NgModule({
     declarations: [
         InventoryComponent,
-        InventoryListComponent
+        InventoryListComponent,
+        InventoryAssignedComponent,
+        InventoryReviewedComponent
     ],
     imports     : [
         RouterModule.forChild(ecommerceRoutes),
@@ -38,7 +42,8 @@ import { ecommerceRoutes } from 'app/modules/admin/apps/ecommerce/ecommerce.rout
         MatSelectModule,
         MatSlideToggleModule,
         MatTooltipModule,
-        SharedModule
+        SharedModule,
+        MatSnackBarModule
     ]
 })
 export class ECommerceModule

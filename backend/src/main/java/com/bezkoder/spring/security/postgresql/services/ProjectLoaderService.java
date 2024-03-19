@@ -40,7 +40,7 @@ public class ProjectLoaderService {
         this.evaluationRepository = evaluationRepository;
     }
     public void loadProjectsFromSismo(Long evaluationId) {
-        String url = sismoUrl + "/duginf";
+        String url = sismoUrl + "/duginf/proyectos-concluidos";
 
         try {
             ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
@@ -66,6 +66,7 @@ public class ProjectLoaderService {
                     newProject.setStatus(externalProject.getEst_proy());
                     newProject.setArea1(externalProject.getArea_investigacion());
                     newProject.setArea2(externalProject.getArea_ocde());
+                    newProject.setCondition("N");
 
                     projectRepository.save(newProject);
                     // Crear una evaluación para el nuevo proyecto con puntaje inicial de 0

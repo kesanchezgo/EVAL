@@ -52,30 +52,40 @@
                             <div></div>
                             <div
                                 class="hidden md:block"
-                                [mat-sort-header]="'id'">
+                                [mat-sort-header]="'project.externalId'">
                                 ID
                             </div>
-                            <div [mat-sort-header]="'name'">Proyecto</div>
+                            <div [mat-sort-header]="'project.name'">Proyecto</div>
                             <div
                                 class="hidden sm:block"
-                                [mat-sort-header]="'price'">
-                                Price
+                                [mat-sort-header]="'project.area1'">
+                                Area 1
+                            </div>
+                            <div
+                                class="hidden sm:block"
+                                [mat-sort-header]="'project.area2'">
+                                Area 2
                             </div>
                             <div
                                 class="hidden lg:block"
                                 [mat-sort-header]="'score'">
-                                Eval.
+                                Puntaje
                             </div>
                             <div
                                 class="hidden lg:block"
-                                [mat-sort-header]="'status'">
+                                [mat-sort-header]="'project.status'">
                                 Estado
                             </div>
-                            <div class="hidden sm:block">Evaluar</div>
+                            <div
+                                class="hidden lg:block"
+                                [mat-sort-header]="'project.condition'">
+                                Condi.
+                            </div>
+                            <div class="hidden sm:block">Detalle</div>
                         </div>
                         <!-- Rows -->
                         <ng-container *ngIf="(projects$ | async) as projects">
-                            <ng-container *ngFor="let project of projects; trackBy: trackByFn">
+                            <ng-container *ngFor="let item of projects; trackBy: trackByFn">
                                 <div class="inventory-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
 
                                     <!-- Image -->
@@ -83,12 +93,12 @@
                                         <div class="relative flex flex-0 items-center justify-center w-12 h-12 mr-6 rounded overflow-hidden border">
                                             <img
                                                 class="w-8"
-                                                *ngIf="project.thumbnail"
-                                                [alt]="'project thumbnail image'"
-                                                [src]="project.thumbnail">
+                                                *ngIf="item.thumbnail"
+                                                [alt]="'item thumbnail image'"
+                                                [src]="item.thumbnail">
                                             <div
                                                 class="flex items-center justify-center w-full h-full text-xs font-semibold leading-none text-center uppercase"
-                                                *ngIf="!project.thumbnail">
+                                                *ngIf="!item.thumbnail">
                                                 NO THUMB
                                             </div>
                                         </div>
@@ -96,56 +106,89 @@
 
                                     <!-- ID -->
                                     <div class="hidden md:block truncate">
-                                        {{project.id}}
+                                        {{item.project.externalId}}
                                     </div>
 
                                     <!-- Name -->
                                     <div class="truncate">
-                                        {{project.name}}
+                                        {{item.project.name}}
                                     </div>
 
-                                    <!-- Price -->
+                                    <!-- Area 1 -->
                                     <div class="hidden sm:block">
-                                        {{project.price | currency:'USD':'symbol':'1.2-2'}}
+                                        {{item.project.area1}}
+                                    </div>
+
+                                    <!-- Area 2 -->
+                                    <div class="hidden sm:block">
+                                        {{item.project.area2}}
                                     </div>
 
                                     <!-- Score -->
                                     <div class="hidden lg:flex items-center">
-                                        <div class="min-w-4">0</div>
-                                        <!-- Low stock -->
+                                        <div class="min-w-4">{{item.score.toFixed(2)}}</div>
+                                        <!-- Low score -->
                                         <div
                                             class="flex items-end ml-2 w-1 h-4 bg-red-200 rounded overflow-hidden"
-                                            *ngIf="project.stock < 20">
+                                            *ngIf="item.score < 10">
                                             <div class="flex w-full h-1/3 bg-red-600"></div>
                                         </div>
-                                        <!-- Medium stock -->
+                                        <!-- Medium score -->
                                         <div
                                             class="flex items-end ml-2 w-1 h-4 bg-orange-200 rounded overflow-hidden"
-                                            *ngIf="project.stock >= 20 && project.stock < 30">
+                                            *ngIf="item.score >= 10 && item.score < 20">
                                             <div class="flex w-full h-2/4 bg-orange-400"></div>
                                         </div>
-                                        <!-- High stock -->
+                                        <!-- High score -->
                                         <div
                                             class="flex items-end ml-2 w-1 h-4 bg-green-100 rounded overflow-hidden"
-                                            *ngIf="project.stock >= 30">
+                                            *ngIf="item.score >= 20">
                                             <div class="flex w-full h-full bg-green-400"></div>
                                         </div>
                                     </div>
 
-                                    <!-- Active -->
-                                    <div class="hidden lg:block">
-                                        <ng-container *ngIf="project.active">
+                                    <!-- Status -->
+                                    <!-- <div class="hidden lg:block">
+                                        <ng-container *ngIf="item.project.active">
                                             <mat-icon
                                                 class="text-green-400 icon-size-5"
                                                 [svgIcon]="'heroicons_solid:check'"></mat-icon>
                                         </ng-container>
-                                        <ng-container *ngIf="!project.active">
+                                        <ng-container *ngIf="!item.project.active">
                                             <mat-icon
                                                 class="text-gray-400 icon-size-5"
                                                 [svgIcon]="'heroicons_solid:x'"></mat-icon>
                                         </ng-container>
+                                    </div> -->
+                                    <div class="hidden lg:block">
+                                        <!-- cerrado -->
+                                        <ng-container *ngIf="item.project.status === 'C'">
+                                            <mat-icon class="text-green-400 icon-size-5" [svgIcon]="'heroicons_solid:check'" matTooltip="Finalizado"></mat-icon>
+                                        </ng-container>
+                                        <!-- proceso de cierre -->
+                                        <ng-container *ngIf="item.project.status === 'D'">
+                                            <mat-icon class="text-yellow-400 icon-size-5" [svgIcon]="'heroicons_solid:trending-up'" matTooltip="Próximo a finalizar"></mat-icon>
+                                        </ng-container>
+                                        <!-- en ejecución -->
+                                        <ng-container *ngIf="item.project.status === 'E'">
+                                            <mat-icon class="text-blue-400 icon-size-5" [svgIcon]="'heroicons_solid:refresh'" matTooltip="En progreso"></mat-icon>
+                                        </ng-container>
                                     </div>
 
+                                    <div class="hidden lg:block">
+                                        <!-- cerrado -->
+                                        <ng-container *ngIf="item.project.condition === 'N'">
+                                            <mat-icon class="text-blue-400 icon-size-5" [svgIcon]="'heroicons_solid:document-add'" matTooltip="Sin asignar"></mat-icon>
+                                        </ng-container>
+                                        <!-- proceso de cierre -->
+                                        <ng-container *ngIf="item.project.condition === 'A'">
+                                            <mat-icon class="text-yellow-400 icon-size-5" [svgIcon]="'heroicons_solid:user-group'" matTooltip="Asignado para revision"></mat-icon>
+                                        </ng-container>
+                                        <!-- en ejecución -->
+                                        <ng-container *ngIf="item.project.condition === 'R'">
+                                            <mat-icon class="text-green-400 icon-size-5" [svgIcon]="'heroicons_solid:check-circle'" matTooltip="Revisado"></mat-icon>
+                                        </ng-container>
+                                    </div>
                                     <!-- Details button -->
                                     <div>
                                         <!-- <div *ngIf="selectedProject">
@@ -154,17 +197,17 @@
                                         <button
                                             class="min-w-10 min-h-7 h-7 px-2 leading-6"
                                             mat-stroked-button
-                                            (click)="toggleDetails(project.id)">
+                                            (click)="toggleDetails(item.project.externalId, item.id, item.project.id)">
                                             <mat-icon
                                                 class="icon-size-5"
-                                                [svgIcon]="selectedProject?.id_proyecto === getCodeNumberSISMO(project.id) ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'"></mat-icon>
+                                                [svgIcon]="selectedProject?.id_proyecto === getCodeNumberSISMO(item.project.externalId) ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'"></mat-icon>
                                         </button>
                                         
                                     </div>
                                 </div>
                                 <div class="grid">
-                                    <ng-container *ngIf="selectedProject?.id_proyecto === getCodeNumberSISMO(project.id)">
-                                        <ng-container *ngTemplateOutlet="rowDetailsTemplate; context: {$implicit: project}"></ng-container>
+                                    <ng-container *ngIf="selectedProject?.id_proyecto === getCodeNumberSISMO(item.project.externalId)">
+                                        <ng-container *ngTemplateOutlet="rowDetailsTemplate; context: {$implicit: item}"></ng-container>
                                     </ng-container>
                                 </div>
                             </ng-container>
@@ -174,8 +217,8 @@
                     <mat-paginator
                         class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
                         [ngClass]="{'pointer-events-none': isLoading}"
-                        [length]="pagination.length"
-                        [pageIndex]="pagination.page"
+                        [length]="pagination.totalElements"
+                        [pageIndex]="pagination.number"
                         [pageSize]="pagination.size"
                         [pageSizeOptions]="[5, 10, 25, 100]"
                         [showFirstLastButtons]="true"></mat-paginator>
@@ -336,41 +379,24 @@
               
                     </form>
                   </div>
-                  <!-- Sección de evaluación -->
-                <div class="flex border-t">
+
+                <!-- <div class="flex border-t">
                     <form class="flex flex-col w-full" [formGroup]="evaluationForm">
                         <div class="flex flex-col sm:flex-row p-8">
-                            <!-- Campos de evaluación -->
                             <div class="flex flex-auto flex-wrap">
-                                <!-- Criterios de evaluación -->
                                 <div class="flex flex-col w-full">
                                     <h3 class="text-lg font-semibold mb-4">Criterios de evaluación</h3>
                                     <ng-container *ngIf="(criterias$ | async) as criterias">
-                                        <!-- Utilizamos ng-container para aplicar la directiva *ngIf y *ngFor sin agregar elementos innecesarios al DOM -->
                                         <div *ngFor="let criteria of criterias">
                                             <h4 class="text-md font-semibold mb-2">{{ criteria.name }}</h4>
-                                            <table class="w-full border-collapse border border-gray-200">
-                                                <thead class="bg-gray-100">
-                                                    <tr>
-                                                        <th class="py-2 px-4 border border-gray-200">Descripción</th>
-                                                        <th class="py-2 px-4 border border-gray-200">Puntuación</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr *ngFor="let subcriteria of criteria.subcriteria">
-                                                        <td class="py-2 px-4 border border-gray-200">{{ subcriteria.description }}</td>
-                                                        <td class="py-2 px-4 border border-gray-200">
-                                                            <input type="number" class="w-16 border border-gray-300 rounded px-2 py-1" min="1" max="4">
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                            <select [attr.formControlName]="criteria.id" class="w-64 border border-gray-300 rounded px-2 py-1">
+                                                <option *ngFor="let subcriteria of criteria.subcriteria" [value]="subcriteria.id">{{ subcriteria.description }}</option>
+                                            </select>
                                         </div>
                                     </ng-container>
                                 </div>
                             </div>
                         </div>
-
                         <div class="flex items-center justify-between w-full border-t px-8 py-4">
                             <div class="flex items-center">
                                 <div class="flex items-center mr-4" *ngIf="flashMessage">
@@ -387,8 +413,60 @@
                             </div>
                         </div>
                     </form>
-                </div>
-
+                </div> -->
+                <!-- review -->
+                <!-- <div class="flex border-b">
+                    <form class="flex flex-col w-full" [formGroup]="evaluationForm">
+                        <div class="flex flex-col sm:flex-row p-8">
+                            <div class="flex flex-auto flex-wrap">
+                                <div class="flex flex-col w-full">
+                                    <h3 class="text-lg font-semibold mb-4">Criterios de evaluación</h3>
+                                    <ng-container *ngIf="(criterias$ | async) as criterias">
+                                        <div *ngFor="let criteria of criterias">
+                                          <div class="flex">
+                                            <mat-form-field class="w-5/6 pl-2">
+                                              <mat-label>{{ criteria.name }}</mat-label>
+                                              <mat-select [formControlName]="criteria.id" (selectionChange)="onSubcriterionChange($event.value, criteria.id)">
+                                                <mat-option *ngFor="let subcriteria of criteria.subcriteria" [value]="subcriteria">
+                                                  {{ subcriteria.description }}
+                                                </mat-option>
+                                              </mat-select>
+                                              <mat-error *ngIf="criteria.id && evaluationForm.get(criteria.id.toString()).hasError('required')">
+                                                Debe seleccionar un valor.
+                                              </mat-error>
+                                            </mat-form-field>
+                                      
+                                            <mat-form-field class="w-1/6 px-2">
+                                              <mat-label>Puntaje</mat-label>
+                                              <input matInput type="number" [formControlName]="criteria.id + '_score'" placeholder="Puntuación"
+                                                     [min]="0" [max]="20" required>
+                                              <mat-error *ngIf="evaluationForm.get(criteria.id + '_score').hasError('required')">Debe ingresar una puntuación.</mat-error>
+                                            </mat-form-field>
+                                          </div>
+                                        </div>
+                                      </ng-container>
+                                      
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between w-full border-t px-8 py-4">
+                            <div class="flex items-center">
+                                <div class="flex items-center mr-4" *ngIf="flashMessage">
+                                    <ng-container *ngIf="flashMessage === 'success'">
+                                        <mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:check'"></mat-icon>
+                                        <span class="ml-2">Project updated</span>
+                                    </ng-container>
+                                    <ng-container *ngIf="flashMessage === 'error'">
+                                        <mat-icon class="text-red-500" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                                        <span class="ml-2">An error occurred, try again!</span>
+                                    </ng-container>
+                                </div>
+                                <button mat-flat-button [color]="'primary'" (click)="submitEvaluation()"  [disabled]="!evaluationForm.valid">Enviar Evaluación</button>
+                            </div>
+                        </div>
+                    </form>
+                </div> -->
+                
 
                 </div>
               </ng-template>

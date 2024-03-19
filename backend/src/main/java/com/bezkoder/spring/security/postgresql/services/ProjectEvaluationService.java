@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Pageable;
 
-
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -49,4 +49,55 @@ public class ProjectEvaluationService {
     public Page<ProjectEvaluation> findAll(Pageable pageable) {
         return projectEvaluationRepository.findAll(pageable);
     }
+    //
+    public Page<ProjectEvaluation> findByProjectIdsAndEvaluationIdAndProjectNameContainingIgnoreCase(List<Long> projectIds, Long evaluationId, String search, Pageable pageable) {
+        return projectEvaluationRepository.findByProjectIdInAndEvaluationIdAndProject_NameContainingIgnoreCase(projectIds,evaluationId, search, pageable);
+    }
+
+    public Page<ProjectEvaluation> findByProjectIdsAndEvaluationId(List<Long> projectIds, Long evaluationId, Pageable pageable) {
+        return projectEvaluationRepository.findByProjectIdInAndEvaluationId(projectIds, evaluationId, pageable);
+    }
+
+    public Page<ProjectEvaluation> findByProjectIdsAndProjectNameContainingIgnoreCase(List<Long> projectIds, String search, Pageable pageable) {
+        return projectEvaluationRepository.findByProjectIdInAndProject_NameContainingIgnoreCase(projectIds, search, pageable);
+    }
+
+    public Page<ProjectEvaluation> findByProjectIds(List<Long> projectIds, Pageable pageable) {
+        return projectEvaluationRepository.findByProjectIdIn(projectIds, pageable);
+    }
+
+    //
+
+    public Page<ProjectEvaluation> findByProjectIdsAndEvaluationIdAndConditionAndProjectNameContainingIgnoreCase(List<Long> projectIds, Long evaluationId, String condition,String search, Pageable pageable) {
+        return projectEvaluationRepository.findByProjectIdInAndEvaluationIdAndProjectConditionAndProject_NameContainingIgnoreCase(projectIds,evaluationId, condition, search, pageable);
+    }
+
+    public Page<ProjectEvaluation> findByProjectIdsAndEvaluationIdAndCondition(List<Long> projectIds, Long evaluationId,String condition, Pageable pageable) {
+        return projectEvaluationRepository.findByProjectIdInAndEvaluationIdAndProjectCondition(projectIds, evaluationId, condition, pageable);
+    }
+
+    public Page<ProjectEvaluation> findByProjectIdsAndConditionAndProjectNameContainingIgnoreCase(List<Long> projectIds, String condition, String search, Pageable pageable) {
+        return projectEvaluationRepository.findByProjectIdInAndProjectConditionAndProject_NameContainingIgnoreCase(projectIds, condition, search, pageable);
+    }
+
+
+    public Page<ProjectEvaluation> findByEvaluationIdAndConditionAndProjectNameContainingIgnoreCase(Long evaluationId,String condition, String search, Pageable pageable){
+        return projectEvaluationRepository.findByEvaluationIdAndProjectConditionAndProject_NameContainingIgnoreCase(evaluationId, condition, search, pageable);
+    }
+    public Page<ProjectEvaluation> findByEvaluationIdAndCondition(Long evaluationId,String condition, Pageable pageable){
+        return projectEvaluationRepository.findByEvaluationIdAndProjectCondition(evaluationId, condition, pageable);
+    }
+    public Page<ProjectEvaluation> findByConditionAndProjectNameContainingIgnoreCase(String condition, String search, Pageable pageable){
+        return projectEvaluationRepository.findByProjectConditionAndProject_NameContainingIgnoreCase(condition, search, pageable);
+    }
+    public Page<ProjectEvaluation> findByProjectIdsAndCondition(List<Long> projectIds, String condition, Pageable pageable){
+        return projectEvaluationRepository.findByProjectIdInAndProjectCondition(projectIds, condition, pageable);
+    }
+    public Page<ProjectEvaluation> findByCondition(String condition, Pageable pageable){
+        return projectEvaluationRepository.findByProjectCondition(condition, pageable);
+    }
+
+    
 }
+
+
