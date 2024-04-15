@@ -1,4 +1,4 @@
-INSERT INTO public.sectors ("name") VALUES
+INSERT INTO sectors (name) VALUES
 ('Agropecuario'),
 ('Automotriz'),
 ('Banca, seguros y AFPs'),

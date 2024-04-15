@@ -13,10 +13,10 @@ import lombok.Setter;
 public class ExternalProject {
     private String id_proyecto;
     private String nomb_proy;
+    private String principal;
     private String area_investigacion;
     private String area_ocde;
     private String est_proy;
-
     // Getters y setters
 }
 

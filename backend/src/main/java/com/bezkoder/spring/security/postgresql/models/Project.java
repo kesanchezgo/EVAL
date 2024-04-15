@@ -29,6 +29,9 @@ public class Project {
     private String name;
 
     @Size(max = 255)
+    private String author;
+
+    @Size(max = 255)
     private String area1;
 
     @Size(max = 255)
@@ -44,6 +47,9 @@ public class Project {
 
     @ManyToOne
     private Sector sector;
+
+    @ManyToOne
+    private LineResearch lineResearch;
 
 
 

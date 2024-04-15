@@ -14,6 +14,8 @@ import { Criterion, Subcriterion } from '../criteria.types';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { of } from 'rxjs';
 import { User } from 'app/core/user/user.types';
+import { Sector } from '../sector.types';
+import { LineResearch } from '../line-research.types';
 
 @Component({
     selector       : 'inventory-assigned',
@@ -52,6 +54,10 @@ export class InventoryAssignedComponent implements OnInit, AfterViewInit, OnDest
     projects$: Observable<ProjectEvaluationContentItem[]>;
    
     criterias$: Observable<Criterion[]>;
+
+    sectors$: Observable<Sector[]>;
+
+    line_researchs$: Observable<LineResearch[]>;
 
     pageable: Pageable;
     
@@ -158,6 +164,8 @@ export class InventoryAssignedComponent implements OnInit, AfterViewInit, OnDest
 
         this.evaluationForm = this._formBuilder.group({
             // Agrega más campos de formulario según sea necesario para otros criterios
+            sector: ['', Validators.required],
+            line_research: ['', Validators.required]
           });
 
         this.evaluationFinalForm = this._formBuilder.group({
@@ -213,6 +221,13 @@ export class InventoryAssignedComponent implements OnInit, AfterViewInit, OnDest
                 this.evaluationForm.addControl(criteria.id.toString() + '_score', this._formBuilder.control('', Validators.required)); // Agregar el FormControl para el score
             });
         });
+        console.log("evalForm: ",this.evaluationForm.value);
+
+        // Get the sectors
+        this.sectors$ = this._inventoryService.sectors$;
+
+        // Get the sectors
+        this.line_researchs$ = this._inventoryService.lineResearchs$;
        
         // Subscribe to search input field value changes
         this.searchInputControl.valueChanges

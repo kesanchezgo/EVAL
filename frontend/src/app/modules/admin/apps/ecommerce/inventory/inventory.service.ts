@@ -4,8 +4,10 @@ import { BehaviorSubject, filter, map, Observable, of, switchMap, take, tap, thr
 import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryProduct, InventoryTag, InventoryVendor } from 'app/modules/admin/apps/ecommerce/inventory/inventory.types';
 import {Project, ProjectResponse, Pageable, Proyecto  } from './project.types';
 import { Criterion, CriteriaResponse } from './criteria.types';
+import { Sector, SectorResponse } from './sector.types';
 import { ProjectEvaluationContentItem, ProjectEvaluationResponse, ProjectEvaluationPageable, PaginationInfo } from './project-evaluation.types';
 import { environment } from 'environments/environment';import { isNullBlankZeroUndefined } from 'app/core/util/ValidateData';
+import { LineResearch, LineResearchResponse } from './line-research.types';
 ;
 @Injectable({
     providedIn: 'root'
@@ -36,6 +38,10 @@ export class InventoryService
     private _proyectos: BehaviorSubject<Proyecto[]> = new BehaviorSubject<Proyecto[]>(null);
 
     private _criterias: BehaviorSubject<Criterion[]> = new BehaviorSubject<Criterion[]>(null);
+
+    private _sectors: BehaviorSubject<Sector[]> = new BehaviorSubject<Sector[]>(null);
+
+    private _line_researchs: BehaviorSubject<LineResearch[]> = new BehaviorSubject<LineResearch[]>(null);
 
     private _tags: BehaviorSubject<InventoryTag[] | null> = new BehaviorSubject(null);
     private _vendors: BehaviorSubject<InventoryVendor[] | null> = new BehaviorSubject(null);
@@ -130,6 +136,16 @@ export class InventoryService
     get criterias$(): Observable<Criterion[]>
     {
         return this._criterias.asObservable();
+    }
+
+    get sectors$(): Observable<Sector[]>
+    {
+        return this._sectors.asObservable();
+    }
+
+    get lineResearchs$(): Observable<Sector[]>
+    {
+        return this._line_researchs.asObservable();
     }
 
     /**
@@ -271,6 +287,53 @@ export class InventoryService
           tap((response: CriteriaResponse) => {
             this._criterias.next(response);
             console.log("Crit: ",response);
+          })
+        );
+      }
+
+
+      getSectors(
+        page: number = 0,
+        size: number = 10,
+        sort: string = 'name',
+        order: 'asc' | 'desc' | '' = 'asc',
+        search: string = ''
+      ): Observable<SectorResponse> {
+        return this._httpClient.get<SectorResponse>(environment.evalsys+'api/sectors', {
+          /* params: {
+            page: '' + page,
+            size: '' + size,
+            sort,
+            order,
+            search
+          } */
+        }).pipe(
+          tap((response: SectorResponse) => {
+            this._sectors.next(response);
+            console.log("Sectors: ",response);
+          })
+        );
+      }
+
+      getLineResearchs(
+        page: number = 0,
+        size: number = 10,
+        sort: string = 'name',
+        order: 'asc' | 'desc' | '' = 'asc',
+        search: string = ''
+      ): Observable<LineResearchResponse> {
+        return this._httpClient.get<LineResearchResponse>(environment.evalsys+'api/line_researches', {
+          /* params: {
+            page: '' + page,
+            size: '' + size,
+            sort,
+            order,
+            search
+          } */
+        }).pipe(
+          tap((response: LineResearchResponse) => {
+            this._line_researchs.next(response);
+            console.log("LineResearch: ",response);
           })
         );
       }

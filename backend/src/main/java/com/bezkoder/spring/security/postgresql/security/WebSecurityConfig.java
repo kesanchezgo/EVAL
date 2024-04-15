@@ -98,6 +98,8 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
               .requestMatchers("/api/projectassignment/**").permitAll()
               .requestMatchers("/api/users/**").permitAll()
               .requestMatchers("/api/generate-report/**").permitAll()
+              .requestMatchers("/api/sectors/**").permitAll()
+              .requestMatchers("/api/line_researches**").permitAll()
               .anyRequest().authenticated()
         );
     

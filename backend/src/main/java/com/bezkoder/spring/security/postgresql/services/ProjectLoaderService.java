@@ -54,6 +54,7 @@ public class ProjectLoaderService {
 
                 if (existingProject != null) {
                     existingProject.setName(externalProject.getNomb_proy());
+                    existingProject.setAuthor(externalProject.getPrincipal());
                     existingProject.setStatus(externalProject.getEst_proy());
                     existingProject.setArea1(externalProject.getArea_investigacion());
                     existingProject.setArea2(externalProject.getArea_ocde());
@@ -63,6 +64,7 @@ public class ProjectLoaderService {
                     Project newProject = new Project();
                     newProject.setExternalId("SISMO-" + externalProject.getId_proyecto());
                     newProject.setName(externalProject.getNomb_proy());
+                    newProject.setAuthor(externalProject.getPrincipal());
                     newProject.setStatus(externalProject.getEst_proy());
                     newProject.setArea1(externalProject.getArea_investigacion());
                     newProject.setArea2(externalProject.getArea_ocde());

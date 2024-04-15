@@ -5,6 +5,8 @@ import { InventoryService } from 'app/modules/admin/apps/ecommerce/inventory/inv
 import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryProduct, InventoryTag, InventoryVendor } from 'app/modules/admin/apps/ecommerce/inventory/inventory.types';
 import { ProjectResponse } from './project.types';import { CriteriaResponse } from './criteria.types';
 import { ProjectEvaluationResponse } from './project-evaluation.types';
+import { SectorResponse } from './sector.types';
+import { LineResearchResponse } from './line-research.types';
 ;
 
 @Injectable({
@@ -216,6 +218,65 @@ export class InventoryCriteriasResolver implements Resolve<any>
     {
         // Aquí llamas al método getProjects de tu servicio
         return this._inventoryService.getCriterias();
+    }
+}
+
+
+@Injectable({
+    providedIn: 'root'
+})
+export class InventorySectorsResolver implements Resolve<any>
+{
+    /**
+     * Constructor
+     */
+    constructor(private _inventoryService: InventoryService)
+    {
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Resolver
+     *
+     * @param route
+     * @param state
+     */
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<SectorResponse>
+    {
+        // Aquí llamas al método getProjects de tu servicio
+        return this._inventoryService.getSectors();
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class InventoryLineResearchsResolver implements Resolve<any>
+{
+    /**
+     * Constructor
+     */
+    constructor(private _inventoryService: InventoryService)
+    {
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Resolver
+     *
+     * @param route
+     * @param state
+     */
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<LineResearchResponse>
+    {
+        // Aquí llamas al método getProjects de tu servicio
+        return this._inventoryService.getLineResearchs();
     }
 }
 
