@@ -42,6 +42,11 @@ public class Project {
     @Size(max = 1)
     private String condition;
 
+    @ManyToOne
+    private Sector sector;
+
+
+
     /* @OneToMany(mappedBy = "project")
     private Set<ProjectEvaluation> projectEvaluations = new HashSet<>(); */
 

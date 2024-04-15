@@ -3,6 +3,7 @@ package com.bezkoder.spring.security.postgresql.controllers;
 import com.bezkoder.spring.security.postgresql.models.Evaluation;
 import com.bezkoder.spring.security.postgresql.models.Project;
 import com.bezkoder.spring.security.postgresql.models.ProjectEvaluation;
+import com.bezkoder.spring.security.postgresql.payload.dto.ProjectEvaluationWithUsersDTO;
 import com.bezkoder.spring.security.postgresql.repository.ProjectEvaluationRepository;
 import com.bezkoder.spring.security.postgresql.repository.UserProjectAssignmentRepository;
 import com.bezkoder.spring.security.postgresql.services.ProjectEvaluationService;
@@ -18,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -277,6 +279,34 @@ public class ProjectEvaluationController {
             return FilterType.NONE;
         }
     }
+
+    @GetMapping("/project-evaluations/{projectId}/with-users")
+    public ResponseEntity<List<ProjectEvaluationWithUsersDTO>> getProjectEvaluationsWithUsers(
+            @PathVariable Long projectId) {
+        List<ProjectEvaluationWithUsersDTO> projectEvaluationsWithUsers = 
+                projectEvaluationService.findProjectEvaluationsWithUsersByProjectId(projectId);
+
+        return new ResponseEntity<>(projectEvaluationsWithUsers, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/project-evaluations/with-users")
+    public ResponseEntity<Page<ProjectEvaluationWithUsersDTO>> getProjectEvaluationsWithUsers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "project.externalId") String sort,
+            @RequestParam(defaultValue = "asc") String order,
+            @RequestParam(required = false) Long evaluationId,
+            @RequestParam(required = false) String condition,
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) Long userId) {
+        
+        Page<ProjectEvaluationWithUsersDTO> projectEvaluationsWithUsers = 
+                projectEvaluationService.findProjectEvaluationsWithUsers(page, size, sort, order, null, evaluationId, condition, search, userId);
+
+        return new ResponseEntity<>(projectEvaluationsWithUsers, HttpStatus.OK);
+    }
+
     
 
 }
