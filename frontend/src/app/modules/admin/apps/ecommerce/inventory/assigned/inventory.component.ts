@@ -68,7 +68,7 @@ export class InventoryAssignedComponent implements OnInit, AfterViewInit, OnDest
     isLoading: boolean = false;
     
     pagination: PaginationInfo;
-    
+    reportLink: string;
     searchInputControl: FormControl = new FormControl();
 
     selectedProject: Proyecto | null = null;
@@ -489,6 +489,21 @@ export class InventoryAssignedComponent implements OnInit, AfterViewInit, OnDest
         // Actualizar los rangos mínimos y máximos del input
         scoreFormControl?.setValidators([Validators.required, Validators.min(subcriteria.range1), Validators.max(subcriteria.range2)]);
         scoreFormControl?.updateValueAndValidity();
+      }
+
+    
+      showReport(){
+         // Get the product by id
+         const idProyecto = this.selectedProjectForm.get('id_proyecto').value;
+         this._inventoryService.getReport(idProyecto)
+         .subscribe((project) => {
+
+             //this.reportLink = project;
+             console.log("link: ",project);
+             // Mark for check
+             //window.open(this.reportLink, '_blank');
+             this._changeDetectorRef.markForCheck();
+         });
       }
       
 }

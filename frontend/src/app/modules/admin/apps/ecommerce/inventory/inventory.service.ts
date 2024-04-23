@@ -41,6 +41,8 @@ export class InventoryService
 
     private _sectors: BehaviorSubject<Sector[]> = new BehaviorSubject<Sector[]>(null);
 
+    private _report: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+
     private _line_researchs: BehaviorSubject<LineResearch[]> = new BehaviorSubject<LineResearch[]>(null);
 
     private _tags: BehaviorSubject<InventoryTag[] | null> = new BehaviorSubject(null);
@@ -141,6 +143,11 @@ export class InventoryService
     get sectors$(): Observable<Sector[]>
     {
         return this._sectors.asObservable();
+    }
+
+    get report$(): Observable<string>
+    {
+        return this._report.asObservable();
     }
 
     get lineResearchs$(): Observable<Sector[]>
@@ -338,6 +345,8 @@ export class InventoryService
         );
       }
 
+
+
       getRolByEmail(
         email:string
       ):
@@ -396,6 +405,28 @@ export class InventoryService
         );
     }
  */
+    getReport(id: string): Observable<string> {
+        // Make the HTTP GET request to fetch the project by ID
+        return this._httpClient.get<string>(environment.evalsys+'api/generate-report'+"?projectId="+id).pipe(
+            map((proyectos: any) => {
+                // Check if there are any projects in the array
+                if (proyectos!= null) {
+                    // Update the project
+                    this._report.next(proyectos);
+                    // Return the project
+                    return proyectos;
+                } else {
+                    // If no project is found, return null or throw an error
+                    return throwError('No project found with ID ' + id);
+                }
+            }),
+            catchError((error) => {
+                // Handle the error and return an error message
+                return throwError('Could not fetch project with ID ' + id);
+            })
+        );
+    }
+
     getProjectById(id: string): Observable<Proyecto> {
         // Make the HTTP GET request to fetch the project by ID
         return this._httpClient.get<Project[]>('http://vri.gestioninformacion.unsa.edu.pe/codeigniter/index.php/duginf/proyecto/' + id).pipe(
