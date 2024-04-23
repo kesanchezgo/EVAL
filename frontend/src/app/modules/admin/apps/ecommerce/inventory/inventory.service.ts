@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, filter, map, Observable, of, switchMap, take, tap, throwError,catchError } from 'rxjs';
 import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryProduct, InventoryTag, InventoryVendor } from 'app/modules/admin/apps/ecommerce/inventory/inventory.types';
 import {Project, ProjectResponse, Pageable, Proyecto  } from './project.types';
@@ -405,27 +405,36 @@ export class InventoryService
         );
     }
  */
-    getReport(id: string): Observable<string> {
-        // Make the HTTP GET request to fetch the project by ID
-        return this._httpClient.get<string>(environment.evalsys+'api/generate-report'+"?projectId="+id).pipe(
-            map((proyectos: any) => {
-                // Check if there are any projects in the array
-                if (proyectos!= null) {
-                    // Update the project
-                    this._report.next(proyectos);
-                    // Return the project
-                    return proyectos;
-                } else {
-                    // If no project is found, return null or throw an error
-                    return throwError('No project found with ID ' + id);
-                }
-            }),
-            catchError((error) => {
-                // Handle the error and return an error message
-                return throwError('Could not fetch project with ID ' + id);
-            })
+    getReport(id: string): Observable<any> {
+        const headers = new HttpHeaders()
+          .set('Accept', 'application/json');
+    
+        return this._httpClient.get<any>(environment.evalsys + 'api/generate-report', {
+          headers: headers,
+          params: new HttpParams().set('projectId', id),
+          responseType: 'text' as 'json'
+        }).pipe(
+          map((response: any) => {
+            // Check if response is JSON
+            if (response && typeof response === 'object') {
+              // Handle JSON response
+              console.log("Report JSON: ", response);
+              return response;
+            } else {
+              // Handle non-JSON response (e.g., PDF)
+              console.log("Report PDF URL: ", response);
+              // You can redirect to the PDF URL or do any other necessary processing
+              //window.open(response, '_blank');
+              // Returning null as we don't have a JSON response
+              return response;
+            }
+          }),
+          catchError((error) => {
+            console.error('Error fetching report:', error);
+            return throwError('Could not fetch report with ID ' + id);
+          })
         );
-    }
+      }
 
     getProjectById(id: string): Observable<Proyecto> {
         // Make the HTTP GET request to fetch the project by ID

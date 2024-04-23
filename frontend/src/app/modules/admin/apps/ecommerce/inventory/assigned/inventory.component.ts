@@ -31,11 +31,11 @@ import { LineResearch } from '../line-research.types';
                 }
 
                 @screen md {
-                    grid-template-columns: 48px 112px auto 112px 112px 62px 62px;
+                    grid-template-columns: 48px 112px auto 112px 112px 112px 62px 62px;
                 }
 
                 @screen lg {
-                    grid-template-columns: 48px 112px auto 112px 112px 96px 62px 62px 62px;
+                    grid-template-columns: 48px 112px auto 112px 112px 112px 96px 62px 62px 62px;
                 }
             }
         `
@@ -159,13 +159,14 @@ export class InventoryAssignedComponent implements OnInit, AfterViewInit, OnDest
             disciplina_ocde           : [''],
             fase_estado_proyecto           : [''],
             fech_ini_cont           : [''],
-            fech_fin_cont           : ['']
+            fech_fin_cont           : [''],
+            nomb_proy               : ['']
         });
 
         this.evaluationForm = this._formBuilder.group({
             // Agrega más campos de formulario según sea necesario para otros criterios
-            sector: ['', Validators.required],
-            line_research: ['', Validators.required]
+            /* sector: ['', Validators.required],
+            line_research: ['', Validators.required] */
           });
 
         this.evaluationFinalForm = this._formBuilder.group({
@@ -492,17 +493,17 @@ export class InventoryAssignedComponent implements OnInit, AfterViewInit, OnDest
       }
 
     
-      showReport(){
+      showReport():void{
          // Get the product by id
          const idProyecto = this.selectedProjectForm.get('id_proyecto').value;
          this._inventoryService.getReport(idProyecto)
          .subscribe((project) => {
 
-             //this.reportLink = project;
-             console.log("link: ",project);
+             this.reportLink = project;
+             //console.log("link: ",project);
              // Mark for check
-             //window.open(this.reportLink, '_blank');
-             this._changeDetectorRef.markForCheck();
+             window.open(this.reportLink, '_blank');
+             //this._changeDetectorRef.markForCheck();
          });
       }
       
