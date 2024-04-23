@@ -180,30 +180,37 @@ public class ProjectEvaluationController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortOrder));
 
         FilterType filterType = getFilterType(evaluationId, search, condition);
-        
+        System.err.println("tessssss");
         switch (filterType) {
             case EVALUATION_ID_SEARCH_CONDITION: //
+                System.err.println("t1");  
                 projectEvaluations = userId != null ?
                         projectEvaluationService.findByProjectIdsAndEvaluationIdAndConditionAndProjectNameContainingIgnoreCase(
                                 getProjectIds(userId), evaluationId, condition,search, pageable) :
                         projectEvaluationService.findByEvaluationIdAndConditionAndProjectNameContainingIgnoreCase(
                                 evaluationId, condition, search, pageable);
+                System.err.println("t1");                
                 break;
-            case EVALUATION_ID_SEARCH: 
+            case EVALUATION_ID_SEARCH:
+                System.err.println("t2"); 
                 projectEvaluations = userId != null ?
                         projectEvaluationService.findByProjectIdsAndEvaluationIdAndProjectNameContainingIgnoreCase(
                                 getProjectIds(userId), evaluationId, search, pageable) :
                         projectEvaluationService.findByEvaluationIdAndProjectNameContainingIgnoreCase(
                                 evaluationId, search, pageable);
+                System.err.println("t2");
                 break;
             case EVALUATION_ID_CONDITION://
+                System.err.println("t3");
                 projectEvaluations = userId != null ?
                         projectEvaluationService.findByProjectIdsAndEvaluationIdAndCondition(
                                 getProjectIds(userId), evaluationId, condition, pageable) :
                         projectEvaluationService.findByEvaluationIdAndCondition(
                                 evaluationId, condition, pageable);
+                System.err.println("t3");
                 break;
             case SEARCH_CONDITION: //
+                System.err.println("t8");
                 projectEvaluations = userId != null ?
                         projectEvaluationService.findByProjectIdsAndConditionAndProjectNameContainingIgnoreCase(
                                 getProjectIds(userId), condition, search, pageable) :
@@ -211,13 +218,16 @@ public class ProjectEvaluationController {
                                 condition, search, pageable);
                 break;
             case EVALUATION_ID:
+                System.err.println("t4");
                 projectEvaluations = userId != null ?
                         projectEvaluationService.findByProjectIdsAndEvaluationId(
                                 getProjectIds(userId), evaluationId, pageable) :
                         projectEvaluationService.findByEvaluationId(
                                 evaluationId, pageable);
+                System.err.println("t4");
                 break;
             case SEARCH:
+                System.err.println("t5");
                 projectEvaluations = userId != null ?
                         projectEvaluationService.findByProjectIdsAndProjectNameContainingIgnoreCase(
                                 getProjectIds(userId), search, pageable) :
@@ -225,6 +235,7 @@ public class ProjectEvaluationController {
                                 search, pageable);
                 break;
             case CONDITION://
+                System.err.println("t6");
                 projectEvaluations = userId != null ?
                         projectEvaluationService.findByProjectIdsAndCondition(
                                 getProjectIds(userId), condition, pageable) :
@@ -233,6 +244,7 @@ public class ProjectEvaluationController {
                 break;
             case NONE:
             default:
+                System.err.println("t7");
                 projectEvaluations = userId != null ?
                         projectEvaluationService.findByProjectIds(getProjectIds(userId), pageable) :
                         projectEvaluationService.findAll(pageable);

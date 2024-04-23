@@ -48,10 +48,21 @@ public class ProjectService {
         return projectRepository.findByNameContainingIgnoreCase(search, pageable);
     } */
 
+    /* public Page<Project> getAllProjects(int page, int size, String sort, String order, String search) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order), sort));
+        if (search != null && !search.isEmpty()) {
+            //return projectRepository.findByNameContainingIgnoreCase(search, pageable);
+            return projectRepository.findByNameContainingIgnoreCaseOrAuthorContainingIgnoreCase(search,search, pageable);
+        } else {
+            return projectRepository.findAll(pageable);
+        }
+    } */
+
     public Page<Project> getAllProjects(int page, int size, String sort, String order, String search) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order), sort));
         if (search != null && !search.isEmpty()) {
-            return projectRepository.findByNameContainingIgnoreCase(search, pageable);
+            //return projectRepository.findByNameContainingIgnoreCaseOrAuthorContainingIgnoreCase(search, search, pageable);
+            return projectRepository.findByAuthorContainingIgnoreCase(search, pageable);
         } else {
             return projectRepository.findAll(pageable);
         }

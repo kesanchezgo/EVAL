@@ -56,8 +56,10 @@ public class ProjectLoaderService {
                     existingProject.setName(externalProject.getNomb_proy());
                     existingProject.setAuthor(externalProject.getPrincipal());
                     existingProject.setStatus(externalProject.getEst_proy());
-                    existingProject.setArea1(externalProject.getArea_investigacion());
-                    existingProject.setArea2(externalProject.getArea_ocde());
+                    //existingProject.setArea1(externalProject.getArea_investigacion());
+                    existingProject.setArea1(externalProject.getLinea_investigacion());
+                    //existingProject.setArea2(externalProject.getArea_ocde());
+                    existingProject.setArea2(externalProject.getDisciplina_ocde());
 
                     projectRepository.save(existingProject);
                 } else {
@@ -66,8 +68,10 @@ public class ProjectLoaderService {
                     newProject.setName(externalProject.getNomb_proy());
                     newProject.setAuthor(externalProject.getPrincipal());
                     newProject.setStatus(externalProject.getEst_proy());
-                    newProject.setArea1(externalProject.getArea_investigacion());
-                    newProject.setArea2(externalProject.getArea_ocde());
+                    //newProject.setArea1(externalProject.getArea_investigacion());
+                    newProject.setArea1(externalProject.getLinea_investigacion());
+                    //newProject.setArea2(externalProject.getArea_ocde());
+                    newProject.setArea2(externalProject.getDisciplina_ocde());
                     newProject.setCondition("N");
 
                     projectRepository.save(newProject);

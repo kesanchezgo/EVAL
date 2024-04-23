@@ -12,6 +12,8 @@ import com.bezkoder.spring.security.postgresql.models.Project;
 public interface ProjectRepository extends JpaRepository<Project, Long> {
     Page<Project> findBy(Pageable pageable);
     Page<Project> findByNameContainingIgnoreCase(String name, Pageable pageable);
+    Page<Project> findByNameContainingIgnoreCaseOrAuthorContainingIgnoreCase(String name, String author, Pageable pageable);
+    Page<Project> findByAuthorContainingIgnoreCase(String author, Pageable pageable);
     Project findByExternalId(String externalId);
     List<Project> findProjectsByCondition(String condition);
     

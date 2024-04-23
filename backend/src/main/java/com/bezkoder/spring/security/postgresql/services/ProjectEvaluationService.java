@@ -60,7 +60,7 @@ public class ProjectEvaluationService {
     }
 
     public Page<ProjectEvaluation> findByProjectNameContainingIgnoreCase(String search, Pageable pageable) {
-        return projectEvaluationRepository.findByProject_NameContainingIgnoreCase(search, pageable);
+        return projectEvaluationRepository.findByProject_NameContainingIgnoreCaseOrProject_AuthorContainingIgnoreCase(search, search, pageable);
     }
 
     public Page<ProjectEvaluation> findAll(Pageable pageable) {
@@ -76,7 +76,7 @@ public class ProjectEvaluationService {
     }
 
     public Page<ProjectEvaluation> findByProjectIdsAndProjectNameContainingIgnoreCase(List<Long> projectIds, String search, Pageable pageable) {
-        return projectEvaluationRepository.findByProjectIdInAndProject_NameContainingIgnoreCase(projectIds, search, pageable);
+        return projectEvaluationRepository.findByProjectIdInAndProject_NameContainingIgnoreCaseOrProject_AuthorContainingIgnoreCase(projectIds, search, search, pageable);
     }
 
     public Page<ProjectEvaluation> findByProjectIds(List<Long> projectIds, Pageable pageable) {

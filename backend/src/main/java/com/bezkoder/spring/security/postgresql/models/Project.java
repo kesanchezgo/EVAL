@@ -9,6 +9,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 @Getter
 @Setter
 @NoArgsConstructor // Constructor sin argumentos
@@ -37,6 +40,12 @@ public class Project {
     @Size(max = 255)
     private String area2;
 
+    @Size(max = 255)
+    private String area3;
+
+    @Size(max = 255)
+    private String area4;
+
     @NotBlank
     @Size(max = 1)
     private String status;
@@ -50,6 +59,18 @@ public class Project {
 
     @ManyToOne
     private LineResearch lineResearch;
+
+
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_at", updatable = false)
+    private Date createdAt;
+
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updated_at")
+    private Date updatedAt;
+
 
 
 

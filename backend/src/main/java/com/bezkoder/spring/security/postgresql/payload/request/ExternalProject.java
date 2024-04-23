@@ -15,7 +15,9 @@ public class ExternalProject {
     private String nomb_proy;
     private String principal;
     private String area_investigacion;
+    private String linea_investigacion;
     private String area_ocde;
+    private String disciplina_ocde;
     private String est_proy;
     // Getters y setters
 }
